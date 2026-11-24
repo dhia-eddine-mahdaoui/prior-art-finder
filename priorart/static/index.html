@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prior-art finder</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#1c2230;--mute:#62697a;--line:#dfe3ea;--accent:#2f5bd8;
+--ok:#1f8a4c;--okbg:#dff3e7;--part:#a86a00;--partbg:#fbeccc;--no:#6b7280;--nobg:#e8eaee;--mark:#fff1a8;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#12151b;--panel:#1a1f28;--ink:#e6e9ef;--mute:#9aa3b5;--line:#2b3240;--accent:#7fa2ff;
+--ok:#5fd18d;--okbg:#163a27;--part:#f0b955;--partbg:#3d2d0e;--no:#9aa3b5;--nobg:#262c38;--mark:#6b5a10;--bad:#ff8a80}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+header h1{font-size:18px;margin:0}header span{color:var(--mute);font-size:13px}
+main{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:16px;padding:16px 20px;max-width:1300px;margin:0 auto}
+@media (max-width:860px){main{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+label{display:block;font-size:12px;color:var(--mute);margin:10px 0 3px;text-transform:uppercase;letter-spacing:.04em}
+textarea,input,select{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+textarea{min-height:210px;resize:vertical}
+.row{display:flex;gap:8px}.row>*{flex:1}
+button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 11px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:3px 9px;border:1px solid var(--line);border-radius:99px;font-size:13px;cursor:pointer;background:var(--bg)}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.feat{margin:4px 0;padding:5px 8px;border-left:3px solid var(--accent);background:var(--bg);font-size:13px;border-radius:0 6px 6px 0}
+.feat b{color:var(--accent)}
+.res{margin-bottom:12px}
+.res h3{margin:0;font-size:16px}
+.meta{color:var(--mute);font-size:13px;margin:2px 0 8px}
+.rank{display:inline-block;min-width:26px;text-align:center;background:var(--accent);color:#fff;border-radius:5px;font-size:13px;margin-right:6px}
+.strip{display:flex;gap:3px;margin:6px 0}
+.cell{flex:1;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.covered{background:var(--okbg);color:var(--ok)}.partial{background:var(--partbg);color:var(--part)}.notfound{background:var(--nobg);color:var(--no)}
+.bar{height:6px;background:var(--nobg);border-radius:3px;overflow:hidden;margin:4px 0 8px}.bar i{display:block;height:100%;background:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th,td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600}
+mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:2px}
+.badge{padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.fb button[aria-pressed=true]{border-color:var(--accent);font-weight:600}
+.fb button.rel[aria-pressed=true]{background:var(--okbg);color:var(--ok)}
+.fb button.non[aria-pressed=true]{background:var(--nobg);color:var(--bad)}
+summary{cursor:pointer;color:var(--accent);font-size:13px;margin-top:6px}
+.note{font-size:12px;color:var(--mute)}
+.err{color:var(--bad)}
+.legend{display:flex;gap:10px;font-size:12px;color:var(--mute);margin:0 0 10px;flex-wrap:wrap;align-items:center}
+.legend .badge{font-size:11px}
+</style>
+</head>
+<body>
+<header><h1>Prior-art finder</h1><span id="meta">prototype over a synthetic corpus - not legal advice</span></header>
+<main>
+<section class="card" aria-label="Disclosure input">
+  <label for="sample">Sample disclosure</label>
+  <select id="sample"><option value="">- paste your own -</option></select>
+  <label for="text">Invention disclosure</label>
+  <textarea id="text" placeholder="Paste a 1-2 paragraph disclosure..."></textarea>
+  <div class="row">
+    <div><label for="pdate">Priority date</label><input id="pdate" type="date"></div>
+    <div><label for="mode">Retrieval</label>
+      <select id="mode"><option value="hybrid_rerank">Hybrid + rerank</option><option value="hybrid">Hybrid</option>
+      <option value="bm25">BM25 only</option><option value="lsa">LSA only</option></select></div>
+  </div>
+  <label>Class filter (CPC-like prefix; none = all)</label>
+  <div class="chips" id="classes"></div>
+  <div class="row" style="margin-top:14px"><button class="primary" id="go">Find prior art</button><button id="export" disabled>Export report (.md)</button></div>
+  <p class="note" id="status" role="status"></p>
+  <div id="features"></div>
+</section>
+<section aria-label="Results" id="results"><div class="card note">Pick a sample or paste a disclosure, set a priority date, and run a search.</div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let samples=[],sel=new Set(),last=null;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cls=s=>s==='not found'?'notfound':s;
+async function api(path,body){const r=await fetch(path,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:undefined);
+  if(!r.ok){let m=r.statusText;try{m=JSON.stringify((await r.json()).detail)}catch(e){}throw new Error(m)}return r.json()}
+function payload(){return{text:$('text').value,priority_date:$('pdate').value||null,classes:[...sel],mode:$('mode').value,top_k:10}}
+async function init(){
+  samples=await api('/api/samples');
+  samples.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.id+' - '+s.title;$('sample').appendChild(o)});
+  const m=await api('/api/meta');$('meta').textContent=m.documents+' synthetic documents ('+m.date_range[0]+' to '+m.date_range[1]+') - prototype, not legal advice';
+  m.classes.forEach(([c,n])=>{const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed','false');b.textContent=c+' ('+n+')';
+    b.onclick=()=>{sel.has(c)?sel.delete(c):sel.add(c);b.setAttribute('aria-pressed',sel.has(c))};b.dataset.c=c;$('classes').appendChild(b)});
+}
+$('sample').onchange=e=>{const s=samples.find(x=>x.id===e.target.value);if(s){$('text').value=s.text;$('pdate').value=s.priority_date}};
+$('go').onclick=async()=>{
+  $('status').textContent='Searching...';$('status').className='note';
+  try{last=await api('/api/search',payload());render(last);$('export').disabled=false;
+    $('status').textContent=last.results.length+' results from '+last.candidates+' candidate documents ('+last.extractor+' feature extractor)'}
+  catch(e){$('status').textContent='Error: '+e.message;$('status').className='note err'}
+};
+$('export').onclick=async()=>{const r=await api('/api/report',payload());
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.markdown],{type:'text/markdown'}));a.download='prior-art-report.md';a.click();URL.revokeObjectURL(a.href)};
+function render(d){
+  $('features').innerHTML='<label>Extracted features</label>'+d.features.map(f=>`<div class="feat"><b>${esc(f.id)}</b> ${esc(f.text)}</div>`).join('');
+  const legend='<div class="legend">Feature mapping: <span class="badge covered">covered</span><span class="badge partial">partial</span><span class="badge notfound">not found</span></div>';
+  $('results').innerHTML=legend+d.results.map(resCard).join('')||'<div class="card note">No documents match the filters.</div>';
+  document.querySelectorAll('.fb button').forEach(b=>b.onclick=()=>mark(b));
+}
+function resCard(r){
+  const strip=r.mapping.map(m=>`<div class="cell ${cls(m.status)}" title="${esc(m.feature_id+': '+m.status)}">${esc(m.feature_id)}</div>`).join('');
+  const rows=r.mapping.map(m=>`<tr><td><b>${esc(m.feature_id)}</b> ${esc(m.feature)}</td><td><span class="badge ${cls(m.status)}">${esc(m.status)}</span><div class="note">${m.score.toFixed(2)}</div></td>
+    <td>${m.passage?`<span class="note">${esc(m.kind)}:</span> `+m.segments.map(s=>s.hit?`<mark>${esc(s.t)}</mark>`:esc(s.t)).join(''):'<span class="note">-</span>'}</td></tr>`).join('');
+  const f=r.feedback;
+  return `<article class="card res" data-id="${esc(r.id)}"><h3><span class="rank">${r.rank}</span>${esc(r.title)}</h3>
+  <div class="meta">${esc(r.id)} - filed ${esc(r.filing_date)} - ${esc(r.assignee)} - ${r.cpc.map(esc).join(', ')}</div>
+  <div class="strip" aria-label="Feature coverage">${strip}</div>
+  <div class="bar" title="coverage ${r.coverage}"><i style="width:${Math.round(r.coverage*100)}%"></i></div>
+  <div class="note">Coverage ${r.coverage.toFixed(2)} - ${r.summary.covered} covered, ${r.summary.partial} partial, ${r.summary['not found']} not found</div>
+  <details><summary>Feature-by-feature mapping</summary><table><thead><tr><th>Feature</th><th>Status</th><th>Best matching passage</th></tr></thead><tbody>${rows}</tbody></table>
+  <p class="note">${esc(r.abstract)}</p></details>
+  <div class="fb row" style="margin-top:10px;max-width:340px"><button class="rel" data-l="relevant" aria-pressed="${f==='relevant'}">Relevant</button>
+  <button class="non" data-l="not_relevant" aria-pressed="${f==='not_relevant'}">Not relevant</button></div></article>`;
+}
+async function mark(b){
+  const card=b.closest('.res'),on=b.getAttribute('aria-pressed')==='true',label=on?'clear':b.dataset.l;
+  await api('/api/feedback',{text:$('text').value,doc_id:card.dataset.id,label});
+  card.querySelectorAll('.fb button').forEach(x=>x.setAttribute('aria-pressed',x===b&&!on));
+  $('status').textContent='Saved: '+card.dataset.id+' -> '+label.replace('_',' ');
+}
+init().catch(e=>{$('status').textContent='Failed to load: '+e.message});
+</script>
+</body>
+</html>

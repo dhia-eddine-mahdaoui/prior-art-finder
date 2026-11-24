@@ -1,0 +1,42 @@
+[
+  {
+    "id": "D1",
+    "title": "Predictive pack thermal management with latent-heat layers",
+    "priority_date": "2023-03-10",
+    "classes": [
+      "H01M"
+    ],
+    "text": "We propose a thermal management arrangement for a traction battery pack used in electric vehicles. A phase-change material layer is disposed between adjacent battery cells to absorb heat during fast charging. Underneath the cells, a cooling plate having serpentine microchannels circulates coolant. A controller adjusts coolant flow rate using a predictive model of the cell temperature gradient, rather than reacting to absolute temperature. Thermal runaway is detected when a rate of temperature rise exceeds a threshold, in which case an intumescent barrier and a venting channel direct ejected gas away from adjacent cells. In cold ambient conditions a reversible heat pump pre-heats the battery pack before charging."
+  },
+  {
+    "id": "D2",
+    "title": "Self-powered vibration node with on-device anomaly detection",
+    "priority_date": "2022-11-04",
+    "classes": [
+      "G01H",
+      "G01P",
+      "G05B"
+    ],
+    "text": "The disclosure describes a wireless condition monitoring node for rotating machinery in a plant. A piezoelectric energy harvester powers the sensor node from machine vibration, so no batteries are replaced. A MEMS accelerometer is sampled at an adaptive rate that increases when vibration amplitude rises. On-device spectral feature extraction using a fast Fourier transform feeds an autoencoder computing an anomaly score. A low-power mesh radio transmits only when the anomaly score exceeds a threshold; otherwise the node sleeps. Temperature compensation of accelerometer drift uses a reference thermistor, and time-synchronised timestamps are shared across nodes of the mesh."
+  },
+  {
+    "id": "D3",
+    "title": "Self-healing barrier coating with in-film monitoring for pipelines",
+    "priority_date": "2023-06-21",
+    "classes": [
+      "C09D",
+      "C23F"
+    ],
+    "text": "We present a multilayer protective coating for buried steel pipelines. Microcapsules containing a corrosion inhibitor release when a crack forms in the coating. Graphene oxide platelets aligned parallel to the surface within an epoxy matrix lengthen the diffusion path of water and chloride. A zinc-rich primer layer provides sacrificial cathodic protection to the steel substrate, applied over a silane adhesion promoter on a grit-blasted surface. The topcoat is cured by ultraviolet light-emitting diodes to a dry film thickness of 80 to 120 micrometres. An embedded electrochemical impedance sensor monitors degradation of the coating during service."
+  },
+  {
+    "id": "D4",
+    "title": "Closed-loop melt pool control for powder bed fusion",
+    "priority_date": "2023-01-30",
+    "classes": [
+      "B22F",
+      "B33Y"
+    ],
+    "text": "This application relates to a laser powder bed fusion machine with in-situ quality control. A coaxial photodiode measures melt pool emission through the laser optics. A high-speed camera captures thermal images that are used to determine melt pool width. A controller adjusts laser power for each scan vector in real time based on the monitored signal. Before exposure, a line sensor mounted on the recoater scans each powder layer to detect streaks. An inert gas flow with an oxygen sensor and a spatter shield is arranged above the build plate, and the build plate is preheated with a temperature gradient across its area."
+  }
+]
