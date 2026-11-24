@@ -1,0 +1,1202 @@
+{
+ "D1": {
+  "docs": {
+   "SYN-0002": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B6"
+   ],
+   "SYN-0132": [
+    "B1",
+    "B2",
+    "B6"
+   ],
+   "SYN-0224": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5"
+   ],
+   "SYN-0228": [
+    "B1",
+    "B3",
+    "B4",
+    "B5",
+    "B6"
+   ],
+   "SYN-0243": [
+    "B1",
+    "B2"
+   ],
+   "SYN-0265": [
+    "B1",
+    "B2",
+    "B4",
+    "B5",
+    "B6"
+   ],
+   "SYN-0307": [
+    "B1",
+    "B2",
+    "B4",
+    "B5",
+    "B6"
+   ],
+   "SYN-0423": [
+    "B1",
+    "B2",
+    "B3",
+    "B5",
+    "B6"
+   ],
+   "SYN-0429": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5"
+   ],
+   "SYN-0439": [
+    "B3",
+    "B5",
+    "B6"
+   ]
+  },
+  "features": {
+   "B1": "a phase-change material layer disposed between adjacent battery cells to absorb heat",
+   "B2": "a cooling plate having serpentine microchannels through which coolant circulates",
+   "B3": "a controller that adjusts coolant flow rate using a predictive model of the cell temperature gradient",
+   "B4": "detecting thermal runaway when a rate of temperature rise exceeds a threshold",
+   "B5": "an intumescent barrier and a venting channel that directs ejected gas away from adjacent cells",
+   "B6": "a reversible heat pump that pre-heats the battery pack in cold ambient conditions"
+  }
+ },
+ "D10": {
+  "docs": {
+   "SYN-0050": [
+    "D10.1",
+    "D10.2",
+    "D10.3",
+    "D10.4",
+    "D10.6"
+   ],
+   "SYN-0053": [
+    "D10.1",
+    "D10.2",
+    "D10.3",
+    "D10.4",
+    "D10.6"
+   ],
+   "SYN-0079": [
+    "D10.1",
+    "D10.2",
+    "D10.3",
+    "D10.4",
+    "D10.5"
+   ],
+   "SYN-0159": [
+    "D10.5",
+    "D10.6"
+   ],
+   "SYN-0232": [
+    "D10.1",
+    "D10.4",
+    "D10.6"
+   ],
+   "SYN-0241": [
+    "D10.1",
+    "D10.2",
+    "D10.3",
+    "D10.4",
+    "D10.5"
+   ],
+   "SYN-0315": [
+    "D10.1",
+    "D10.2",
+    "D10.4",
+    "D10.5",
+    "D10.6"
+   ],
+   "SYN-0320": [
+    "D10.1",
+    "D10.2",
+    "D10.4",
+    "D10.5",
+    "D10.6"
+   ],
+   "SYN-0424": [
+    "D10.1",
+    "D10.2",
+    "D10.6"
+   ],
+   "SYN-0425": [
+    "D10.1",
+    "D10.2",
+    "D10.3",
+    "D10.4",
+    "D10.5"
+   ]
+  },
+  "features": {
+   "D10.1": "a passive surface acoustic wave tag on each busbar joint that reports temperature without a battery",
+   "D10.2": "an interrogator antenna inside the cabinet that reads the tags at intervals",
+   "D10.3": "a thermal imaging window made of infrared-transparent material fitted in the door",
+   "D10.4": "a baseline of normal temperature rise as a function of load current learned during commissioning",
+   "D10.5": "an alert issued when the temperature exceeds the baseline by a margin for a dwell time",
+   "D10.6": "an arc flash sensor with light detection tripping a breaker within milliseconds"
+  }
+ },
+ "D11": {
+  "docs": {
+   "SYN-0016": [
+    "D11.1",
+    "D11.5"
+   ],
+   "SYN-0060": [
+    "D11.1",
+    "D11.2",
+    "D11.4",
+    "D11.5",
+    "D11.6"
+   ],
+   "SYN-0073": [
+    "D11.1",
+    "D11.2",
+    "D11.4",
+    "D11.5",
+    "D11.6"
+   ],
+   "SYN-0187": [
+    "D11.1",
+    "D11.2",
+    "D11.3",
+    "D11.5",
+    "D11.6"
+   ],
+   "SYN-0193": [
+    "D11.1",
+    "D11.2",
+    "D11.3",
+    "D11.4",
+    "D11.6"
+   ],
+   "SYN-0203": [
+    "D11.1",
+    "D11.2",
+    "D11.4"
+   ],
+   "SYN-0266": [
+    "D11.1",
+    "D11.2",
+    "D11.3",
+    "D11.5",
+    "D11.6"
+   ],
+   "SYN-0362": [
+    "D11.1",
+    "D11.2",
+    "D11.3",
+    "D11.4",
+    "D11.5"
+   ],
+   "SYN-0365": [
+    "D11.1",
+    "D11.2",
+    "D11.3",
+    "D11.4",
+    "D11.5"
+   ],
+   "SYN-0442": [
+    "D11.2",
+    "D11.3",
+    "D11.4"
+   ]
+  },
+  "features": {
+   "D11.1": "a slippery liquid-infused porous surface layer that lowers ice adhesion",
+   "D11.2": "a carbon black filled polyurethane layer absorbing sunlight and converting it to heat",
+   "D11.3": "an electrothermal heating mat embedded below the coating and powered by a controller",
+   "D11.4": "a rain erosion resistant leading edge shield of thermoplastic polyurethane tape",
+   "D11.5": "an ice sensor measuring the resonance shift of a vibrating element",
+   "D11.6": "a nanosilica additive roughening the surface at the sub-micron scale"
+  }
+ },
+ "D12": {
+  "docs": {
+   "SYN-0025": [
+    "D12.1",
+    "D12.2",
+    "D12.3",
+    "D12.4",
+    "D12.5"
+   ],
+   "SYN-0066": [
+    "D12.3",
+    "D12.5",
+    "D12.6"
+   ],
+   "SYN-0198": [
+    "D12.3",
+    "D12.6"
+   ],
+   "SYN-0246": [
+    "D12.1",
+    "D12.2",
+    "D12.4",
+    "D12.5",
+    "D12.6"
+   ],
+   "SYN-0250": [
+    "D12.1",
+    "D12.2",
+    "D12.3",
+    "D12.4",
+    "D12.6"
+   ],
+   "SYN-0269": [
+    "D12.2",
+    "D12.3",
+    "D12.4",
+    "D12.5",
+    "D12.6"
+   ],
+   "SYN-0376": [
+    "D12.1",
+    "D12.2",
+    "D12.6"
+   ],
+   "SYN-0411": [
+    "D12.1",
+    "D12.2",
+    "D12.3",
+    "D12.4",
+    "D12.5"
+   ],
+   "SYN-0444": [
+    "D12.1",
+    "D12.2",
+    "D12.3",
+    "D12.4",
+    "D12.5"
+   ],
+   "SYN-0445": [
+    "D12.1",
+    "D12.2",
+    "D12.4",
+    "D12.5",
+    "D12.6"
+   ]
+  },
+  "features": {
+   "D12.1": "a phytic acid phosphorus source derived from rice bran",
+   "D12.2": "chitosan as a carbon source forming a foam char on heating",
+   "D12.3": "a waterborne acrylic binder with less than fifty grams per litre of volatile organic compounds",
+   "D12.4": "expandable graphite flakes increasing the intumescent expansion ratio",
+   "D12.5": "a cone calorimeter acceptance test requiring a peak heat release rate reduction of forty percent",
+   "D12.6": "a clear topcoat of polyurethane protecting the intumescent layer from moisture"
+  }
+ },
+ "D13": {
+  "docs": {
+   "SYN-0041": [
+    "D13.1",
+    "D13.2",
+    "D13.3",
+    "D13.4",
+    "D13.6"
+   ],
+   "SYN-0110": [
+    "D13.1",
+    "D13.2",
+    "D13.4",
+    "D13.5",
+    "D13.6"
+   ],
+   "SYN-0136": [
+    "D13.1",
+    "D13.3",
+    "D13.4",
+    "D13.5",
+    "D13.6"
+   ],
+   "SYN-0137": [
+    "D13.1",
+    "D13.6"
+   ],
+   "SYN-0199": [
+    "D13.1",
+    "D13.2",
+    "D13.4",
+    "D13.5",
+    "D13.6"
+   ],
+   "SYN-0234": [
+    "D13.1",
+    "D13.2",
+    "D13.3",
+    "D13.4",
+    "D13.5"
+   ],
+   "SYN-0290": [
+    "D13.3",
+    "D13.4",
+    "D13.5"
+   ],
+   "SYN-0313": [
+    "D13.1",
+    "D13.2",
+    "D13.3",
+    "D13.4",
+    "D13.5"
+   ],
+   "SYN-0352": [
+    "D13.2",
+    "D13.3",
+    "D13.5"
+   ],
+   "SYN-0447": [
+    "D13.1",
+    "D13.3",
+    "D13.4",
+    "D13.5",
+    "D13.6"
+   ]
+  },
+  "features": {
+   "D13.1": "a heat shrinkable sleeve with a mastic adhesive applied over the girth weld",
+   "D13.2": "an induction heating coil that preheats the steel to a defined temperature before application",
+   "D13.3": "a holiday detector applying a high voltage to find pinholes in the coating",
+   "D13.4": "a two-component epoxy primer with an amine hardener sprayed onto the grit-blasted weld zone",
+   "D13.5": "a pull-off adhesion test recording the load in megapascals",
+   "D13.6": "a wireless tag buried at the joint storing the application parameters and operator identity"
+  }
+ },
+ "D14": {
+  "docs": {
+   "SYN-0039": [
+    "D14.2",
+    "D14.5",
+    "D14.6"
+   ],
+   "SYN-0076": [
+    "D14.1",
+    "D14.3",
+    "D14.4"
+   ],
+   "SYN-0153": [
+    "D14.1",
+    "D14.5"
+   ],
+   "SYN-0221": [
+    "D14.1",
+    "D14.3",
+    "D14.4",
+    "D14.5",
+    "D14.6"
+   ],
+   "SYN-0227": [
+    "D14.1",
+    "D14.2",
+    "D14.4",
+    "D14.5",
+    "D14.6"
+   ],
+   "SYN-0256": [
+    "D14.1",
+    "D14.2",
+    "D14.3",
+    "D14.4",
+    "D14.5"
+   ],
+   "SYN-0314": [
+    "D14.1",
+    "D14.2",
+    "D14.4",
+    "D14.5",
+    "D14.6"
+   ],
+   "SYN-0366": [
+    "D14.1",
+    "D14.2",
+    "D14.4",
+    "D14.5",
+    "D14.6"
+   ],
+   "SYN-0380": [
+    "D14.1",
+    "D14.2",
+    "D14.3",
+    "D14.4",
+    "D14.6"
+   ],
+   "SYN-0458": [
+    "D14.1",
+    "D14.2",
+    "D14.3",
+    "D14.4",
+    "D14.5"
+   ]
+  },
+  "features": {
+   "D14.1": "a laser diffraction analyser that measures the particle size distribution of recycled powder",
+   "D14.2": "a flowability test using a Hall funnel timing the discharge of the powder",
+   "D14.3": "an inert gas fusion analyser measuring the oxygen and nitrogen content of the powder",
+   "D14.4": "a blending station that mixes used powder with virgin powder at a ratio selected from the measured properties",
+   "D14.5": "a batch record that links every part to the powder lot and the number of reuse cycles",
+   "D14.6": "a sealed transfer container that moves the powder under argon without exposure to air"
+  }
+ },
+ "D15": {
+  "docs": {
+   "SYN-0009": [
+    "D15.1",
+    "D15.2",
+    "D15.3",
+    "D15.4",
+    "D15.5"
+   ],
+   "SYN-0067": [
+    "D15.1",
+    "D15.2",
+    "D15.3",
+    "D15.4",
+    "D15.5"
+   ],
+   "SYN-0124": [
+    "D15.1",
+    "D15.2",
+    "D15.3",
+    "D15.4",
+    "D15.6"
+   ],
+   "SYN-0140": [
+    "D15.3",
+    "D15.4",
+    "D15.6"
+   ],
+   "SYN-0170": [
+    "D15.2",
+    "D15.5"
+   ],
+   "SYN-0204": [
+    "D15.1",
+    "D15.2",
+    "D15.4",
+    "D15.5",
+    "D15.6"
+   ],
+   "SYN-0233": [
+    "D15.2",
+    "D15.5",
+    "D15.6"
+   ],
+   "SYN-0237": [
+    "D15.1",
+    "D15.2",
+    "D15.4",
+    "D15.5",
+    "D15.6"
+   ],
+   "SYN-0291": [
+    "D15.1",
+    "D15.2",
+    "D15.4",
+    "D15.5",
+    "D15.6"
+   ],
+   "SYN-0436": [
+    "D15.1",
+    "D15.3",
+    "D15.4",
+    "D15.5",
+    "D15.6"
+   ]
+  },
+  "features": {
+   "D15.1": "a geometry analyser that classifies downward-facing surfaces by overhang angle",
+   "D15.2": "a reduced laser power and increased scan speed assigned to the downskin region",
+   "D15.3": "an island scan pattern with checkerboard sectors of five millimetre width",
+   "D15.4": "a thin sacrificial gusset that is removed by wire cutting",
+   "D15.5": "a thermal camera that detects overheating beneath overhangs and flags the layer",
+   "D15.6": "a machine learning model trained on past builds that predicts dross formation from the scan parameters"
+  }
+ },
+ "D16": {
+  "docs": {
+   "SYN-0056": [
+    "D16.1",
+    "D16.5",
+    "D16.6"
+   ],
+   "SYN-0086": [
+    "D16.1",
+    "D16.2",
+    "D16.3",
+    "D16.4",
+    "D16.5"
+   ],
+   "SYN-0127": [
+    "D16.1",
+    "D16.2",
+    "D16.4"
+   ],
+   "SYN-0173": [
+    "D16.1",
+    "D16.2",
+    "D16.4",
+    "D16.5",
+    "D16.6"
+   ],
+   "SYN-0201": [
+    "D16.1",
+    "D16.2",
+    "D16.3",
+    "D16.4",
+    "D16.6"
+   ],
+   "SYN-0218": [
+    "D16.1",
+    "D16.2",
+    "D16.3",
+    "D16.4",
+    "D16.5"
+   ],
+   "SYN-0277": [
+    "D16.1",
+    "D16.2",
+    "D16.3",
+    "D16.5",
+    "D16.6"
+   ],
+   "SYN-0288": [
+    "D16.1",
+    "D16.2",
+    "D16.4",
+    "D16.5",
+    "D16.6"
+   ],
+   "SYN-0426": [
+    "D16.2",
+    "D16.3",
+    "D16.4",
+    "D16.5",
+    "D16.6"
+   ],
+   "SYN-0440": [
+    "D16.1",
+    "D16.5"
+   ]
+  },
+  "features": {
+   "D16.1": "a roller that presses each deposited bead while it is still hot",
+   "D16.2": "a laser line scanner that measures the bead height profile after each layer",
+   "D16.3": "a controller that modifies the wire feed speed to keep the next layer height at a target",
+   "D16.4": "an interpass temperature sensor holding the substrate below a limit before the next layer starts",
+   "D16.5": "a trailing shielding gas nozzle that protects the cooling bead from oxidation",
+   "D16.6": "a robot path generated from sliced geometry with continuous spiral tool paths avoiding arc restarts"
+  }
+ },
+ "D2": {
+  "docs": {
+   "SYN-0008": [
+    "S1",
+    "S2",
+    "S4",
+    "S5",
+    "S6"
+   ],
+   "SYN-0091": [
+    "S1",
+    "S2",
+    "S4",
+    "S5",
+    "S6"
+   ],
+   "SYN-0115": [
+    "S4",
+    "S5"
+   ],
+   "SYN-0171": [
+    "S1",
+    "S2",
+    "S6"
+   ],
+   "SYN-0299": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+   ],
+   "SYN-0318": [
+    "S1",
+    "S3",
+    "S4",
+    "S5",
+    "S6"
+   ],
+   "SYN-0327": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S6"
+   ],
+   "SYN-0367": [
+    "S2",
+    "S3",
+    "S5"
+   ],
+   "SYN-0372": [
+    "S1",
+    "S2",
+    "S4",
+    "S5",
+    "S6"
+   ],
+   "SYN-0406": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+   ]
+  },
+  "features": {
+   "S1": "a piezoelectric energy harvester that powers the sensor node from machine vibration",
+   "S2": "a MEMS accelerometer sampled at an adaptive rate that increases when vibration amplitude rises",
+   "S3": "on-device spectral feature extraction using a fast Fourier transform and an autoencoder computing an anomaly score",
+   "S4": "a low-power mesh radio that transmits only when the anomaly score exceeds a threshold",
+   "S5": "temperature compensation of accelerometer drift using a reference thermistor",
+   "S6": "time-synchronised timestamps shared across nodes of the mesh"
+  }
+ },
+ "D3": {
+  "docs": {
+   "SYN-0047": [
+    "C1",
+    "C2",
+    "C5"
+   ],
+   "SYN-0071": [
+    "C1",
+    "C2",
+    "C4",
+    "C5",
+    "C6"
+   ],
+   "SYN-0158": [
+    "C1",
+    "C2",
+    "C4",
+    "C5",
+    "C6"
+   ],
+   "SYN-0179": [
+    "C2",
+    "C4",
+    "C6"
+   ],
+   "SYN-0235": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C6"
+   ],
+   "SYN-0257": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5"
+   ],
+   "SYN-0285": [
+    "C1",
+    "C2"
+   ],
+   "SYN-0297": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C6"
+   ],
+   "SYN-0330": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C6"
+   ],
+   "SYN-0409": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5"
+   ]
+  },
+  "features": {
+   "C1": "microcapsules containing a corrosion inhibitor that release when a crack forms in the coating",
+   "C2": "graphene oxide platelets aligned parallel to the surface within an epoxy matrix",
+   "C3": "a zinc-rich primer layer providing sacrificial cathodic protection to the steel substrate",
+   "C4": "curing by ultraviolet light-emitting diodes to a dry film thickness of 80 to 120 micrometres",
+   "C5": "an embedded electrochemical impedance sensor that monitors degradation of the coating",
+   "C6": "a silane adhesion promoter applied to a grit-blasted surface"
+  }
+ },
+ "D4": {
+  "docs": {
+   "SYN-0013": [
+    "A1",
+    "A2",
+    "A4",
+    "A5",
+    "A6"
+   ],
+   "SYN-0019": [
+    "A1",
+    "A2",
+    "A4"
+   ],
+   "SYN-0088": [
+    "A1",
+    "A2",
+    "A4",
+    "A5",
+    "A6"
+   ],
+   "SYN-0130": [
+    "A1",
+    "A2",
+    "A3",
+    "A5",
+    "A6"
+   ],
+   "SYN-0178": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A6"
+   ],
+   "SYN-0190": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5"
+   ],
+   "SYN-0322": [
+    "A3",
+    "A5",
+    "A6"
+   ],
+   "SYN-0414": [
+    "A3",
+    "A4"
+   ],
+   "SYN-0421": [
+    "A1",
+    "A2",
+    "A4",
+    "A5",
+    "A6"
+   ],
+   "SYN-0443": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5"
+   ]
+  },
+  "features": {
+   "A1": "a coaxial photodiode that measures melt pool emission through the laser optics",
+   "A2": "a high-speed camera whose thermal images are used to determine melt pool width",
+   "A3": "a controller that adjusts laser power for each scan vector in real time based on the monitored signal",
+   "A4": "a line sensor mounted on the recoater that scans each powder layer to detect streaks",
+   "A5": "an inert gas flow with an oxygen sensor and a spatter shield above the build plate",
+   "A6": "preheating the build plate with a temperature gradient across its area"
+  }
+ },
+ "D5": {
+  "docs": {
+   "SYN-0010": [
+    "D5.1",
+    "D5.2",
+    "D5.3",
+    "D5.4",
+    "D5.6"
+   ],
+   "SYN-0138": [
+    "D5.1",
+    "D5.2",
+    "D5.3",
+    "D5.4",
+    "D5.6"
+   ],
+   "SYN-0157": [
+    "D5.1",
+    "D5.2",
+    "D5.3",
+    "D5.4",
+    "D5.5"
+   ],
+   "SYN-0207": [
+    "D5.1",
+    "D5.4",
+    "D5.6"
+   ],
+   "SYN-0271": [
+    "D5.1",
+    "D5.6"
+   ],
+   "SYN-0280": [
+    "D5.1",
+    "D5.2",
+    "D5.4",
+    "D5.5",
+    "D5.6"
+   ],
+   "SYN-0348": [
+    "D5.4",
+    "D5.5",
+    "D5.6"
+   ],
+   "SYN-0351": [
+    "D5.1",
+    "D5.2",
+    "D5.4",
+    "D5.5",
+    "D5.6"
+   ],
+   "SYN-0405": [
+    "D5.1",
+    "D5.2",
+    "D5.3",
+    "D5.4",
+    "D5.5"
+   ],
+   "SYN-0456": [
+    "D5.1",
+    "D5.2",
+    "D5.3",
+    "D5.4",
+    "D5.5"
+   ]
+  },
+  "features": {
+   "D5.1": "a fibre optic strain sensor embedded between cells that measures cell swelling",
+   "D5.2": "an adjustable compression plate whose clamping force is set by an actuator according to the measured swelling",
+   "D5.3": "a spring-loaded foam spacer that keeps contact pressure constant over the cell life",
+   "D5.4": "an equivalent-circuit model estimating internal resistance growth from the pulse current response",
+   "D5.5": "a charging profile that reduces current when the swelling rate exceeds a limit",
+   "D5.6": "a history of swelling events stored in a controller memory for maintenance planning"
+  }
+ },
+ "D6": {
+  "docs": {
+   "SYN-0017": [
+    "D6.1",
+    "D6.3",
+    "D6.4",
+    "D6.5",
+    "D6.6"
+   ],
+   "SYN-0021": [
+    "D6.2",
+    "D6.3",
+    "D6.4"
+   ],
+   "SYN-0036": [
+    "D6.5",
+    "D6.6"
+   ],
+   "SYN-0081": [
+    "D6.1",
+    "D6.2",
+    "D6.3",
+    "D6.4",
+    "D6.5"
+   ],
+   "SYN-0151": [
+    "D6.1",
+    "D6.2",
+    "D6.4",
+    "D6.5",
+    "D6.6"
+   ],
+   "SYN-0211": [
+    "D6.1",
+    "D6.2",
+    "D6.3",
+    "D6.4",
+    "D6.6"
+   ],
+   "SYN-0231": [
+    "D6.1",
+    "D6.3",
+    "D6.4",
+    "D6.5",
+    "D6.6"
+   ],
+   "SYN-0319": [
+    "D6.1",
+    "D6.4",
+    "D6.5"
+   ],
+   "SYN-0344": [
+    "D6.1",
+    "D6.2",
+    "D6.4",
+    "D6.5",
+    "D6.6"
+   ],
+   "SYN-0346": [
+    "D6.1",
+    "D6.2",
+    "D6.3",
+    "D6.4",
+    "D6.5"
+   ]
+  },
+  "features": {
+   "D6.1": "a testing station that measures capacity and impedance of each retired cell with a standardised pulse protocol",
+   "D6.2": "a clustering algorithm that groups cells into matched sets based on the measured capacity and impedance",
+   "D6.3": "a reconfigurable switch matrix that rewires series and parallel connections of the cell groups during operation",
+   "D6.4": "a bypass circuit that isolates a failing cell group without interrupting current to the load",
+   "D6.5": "a digital passport stored on each module recording its usage history and test results",
+   "D6.6": "a disassembly fixture with a robotic gripper for removing cells from the original pack without damage"
+  }
+ },
+ "D7": {
+  "docs": {
+   "SYN-0048": [
+    "D7.2",
+    "D7.3",
+    "D7.4",
+    "D7.5",
+    "D7.6"
+   ],
+   "SYN-0061": [
+    "D7.1",
+    "D7.2",
+    "D7.3",
+    "D7.4",
+    "D7.5"
+   ],
+   "SYN-0102": [
+    "D7.3",
+    "D7.4"
+   ],
+   "SYN-0143": [
+    "D7.1",
+    "D7.2",
+    "D7.3",
+    "D7.4",
+    "D7.6"
+   ],
+   "SYN-0172": [
+    "D7.1",
+    "D7.3",
+    "D7.6"
+   ],
+   "SYN-0200": [
+    "D7.3",
+    "D7.5",
+    "D7.6"
+   ],
+   "SYN-0255": [
+    "D7.1",
+    "D7.2",
+    "D7.3",
+    "D7.4",
+    "D7.5"
+   ],
+   "SYN-0349": [
+    "D7.1",
+    "D7.2",
+    "D7.3",
+    "D7.4",
+    "D7.6"
+   ],
+   "SYN-0387": [
+    "D7.1",
+    "D7.2",
+    "D7.4",
+    "D7.5",
+    "D7.6"
+   ],
+   "SYN-0454": [
+    "D7.1",
+    "D7.2",
+    "D7.4",
+    "D7.5",
+    "D7.6"
+   ]
+  },
+  "features": {
+   "D7.1": "a nickel foil heating element embedded in the cell stack that is energised by the cell's own current",
+   "D7.2": "a temperature-dependent charge current limit read from a lookup table stored in the controller",
+   "D7.3": "an alternating current excitation at a selected frequency that warms the cell through internal impedance",
+   "D7.4": "a lithium plating detector that analyses the voltage plateau during relaxation after charging",
+   "D7.5": "an insulated pack lid with aerogel panels reducing heat loss in parked vehicles",
+   "D7.6": "a preconditioning schedule synchronised with the navigation destination and departure time"
+  }
+ },
+ "D8": {
+  "docs": {
+   "SYN-0045": [
+    "D8.1",
+    "D8.2",
+    "D8.4",
+    "D8.5",
+    "D8.6"
+   ],
+   "SYN-0051": [
+    "D8.1",
+    "D8.2",
+    "D8.3",
+    "D8.4",
+    "D8.6"
+   ],
+   "SYN-0055": [
+    "D8.1",
+    "D8.2",
+    "D8.3",
+    "D8.4",
+    "D8.5"
+   ],
+   "SYN-0135": [
+    "D8.1",
+    "D8.2",
+    "D8.4",
+    "D8.5",
+    "D8.6"
+   ],
+   "SYN-0185": [
+    "D8.1",
+    "D8.2",
+    "D8.3",
+    "D8.4",
+    "D8.5"
+   ],
+   "SYN-0192": [
+    "D8.2",
+    "D8.4"
+   ],
+   "SYN-0249": [
+    "D8.1",
+    "D8.3",
+    "D8.4",
+    "D8.5",
+    "D8.6"
+   ],
+   "SYN-0303": [
+    "D8.1",
+    "D8.2",
+    "D8.3",
+    "D8.5",
+    "D8.6"
+   ],
+   "SYN-0340": [
+    "D8.1",
+    "D8.2",
+    "D8.3"
+   ],
+   "SYN-0386": [
+    "D8.1",
+    "D8.2",
+    "D8.4"
+   ]
+  },
+  "features": {
+   "D8.1": "a hydrophone clamped to the pipe wall that records acoustic emission of a leak",
+   "D8.2": "a cross-correlation of signals from two sensors to locate the leak position along the pipe",
+   "D8.3": "a night-time measurement window that exploits low background noise from consumers",
+   "D8.4": "a solar cell and a supercapacitor supplying the transmitter in the street cabinet",
+   "D8.5": "a narrowband cellular link that uploads a leak confidence value once per day",
+   "D8.6": "a machine learning classifier distinguishing leak noise from pump and traffic noise"
+  }
+ },
+ "D9": {
+  "docs": {
+   "SYN-0011": [
+    "D9.1",
+    "D9.2",
+    "D9.4",
+    "D9.5",
+    "D9.6"
+   ],
+   "SYN-0023": [
+    "D9.1",
+    "D9.2",
+    "D9.3",
+    "D9.4",
+    "D9.6"
+   ],
+   "SYN-0103": [
+    "D9.1",
+    "D9.5"
+   ],
+   "SYN-0117": [
+    "D9.1",
+    "D9.2",
+    "D9.3",
+    "D9.4",
+    "D9.5"
+   ],
+   "SYN-0242": [
+    "D9.3",
+    "D9.4",
+    "D9.6"
+   ],
+   "SYN-0345": [
+    "D9.1",
+    "D9.2",
+    "D9.3",
+    "D9.4",
+    "D9.5"
+   ],
+   "SYN-0410": [
+    "D9.2",
+    "D9.4",
+    "D9.5"
+   ],
+   "SYN-0427": [
+    "D9.2",
+    "D9.3",
+    "D9.4",
+    "D9.5",
+    "D9.6"
+   ],
+   "SYN-0441": [
+    "D9.1",
+    "D9.2",
+    "D9.4",
+    "D9.5",
+    "D9.6"
+   ],
+   "SYN-0460": [
+    "D9.1",
+    "D9.2",
+    "D9.4",
+    "D9.5",
+    "D9.6"
+   ]
+  },
+  "features": {
+   "D9.1": "a current clamp on the spindle drive phase that records motor load during cutting",
+   "D9.2": "an acoustic emission sensor attached to the tool holder detecting high-frequency bursts",
+   "D9.3": "a feature vector combining root-mean-square load and spectral band energy for each cut",
+   "D9.4": "a regression model that outputs flank wear width in micrometres",
+   "D9.5": "a numerical control interface that triggers a tool change when the wear estimate reaches a limit",
+   "D9.6": "a digital twin of the cutting process calibrated using the first workpiece of a batch"
+  }
+ }
+}

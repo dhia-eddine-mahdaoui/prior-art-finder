@@ -1,29 +1,38 @@
-"""CLI:  python -m priorart {gen,search,eval,serve}"""
+"""CLI:  python -m priorart {gen,search,eval,tune,serve}"""
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="priorart", description="Prior-art finder prototype (synthetic corpus)")
+    p.add_argument("--dense", action="store_true", help="use the optional neural embeddings (needs fastembed)")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("gen", help="regenerate the synthetic corpus, sample disclosures and labels")
     s = sub.add_parser("search", help="search with a sample disclosure id or a text file")
-    s.add_argument("source", help="sample id (D1..D4) or path to a text file")
+    s.add_argument("source", help="sample id (D1..D16) or path to a text file")
     s.add_argument("--before", help="priority date YYYY-MM-DD (default: the sample's date)")
     s.add_argument("--class", dest="classes", action="append", default=[], help="class prefix filter, repeatable")
     s.add_argument("--mode", default="hybrid_rerank")
     s.add_argument("-k", type=int, default=10)
-    e = sub.add_parser("eval", help="print recall@10 / MRR / nDCG@10 for each retrieval mode")
+    e = sub.add_parser("eval", help="retrieval metrics (dev and test) and feature-mapping accuracy")
+    e.add_argument("--split", choices=("dev", "test", "all"), default=None, help="default: dev and test tables")
     e.add_argument("--with-feedback", action="store_true", help="include relevance marks saved from the UI")
     e.add_argument("--json", action="store_true")
     e.add_argument("--no-thesaurus", action="store_true", help="ablation: disable the synonym thesaurus")
+    e.add_argument("--untuned", action="store_true", help="use the untuned default settings")
+    t = sub.add_parser("tune", help="tune retrieval + mapping on the dev split and write data/tuned.json")
+    t.add_argument("--samples", type=int, default=250)
+    sub.add_parser("report", help="write data/eval_report.json (tuned vs untuned, dev vs test, mapping) and print it")
     v = sub.add_parser("serve", help="run the web app")
     v.add_argument("--host", default="localhost")
     v.add_argument("--port", type=int, default=8765)
     a = p.parse_args(argv)
+    if a.dense:
+        os.environ["PRIORART_DENSE"] = "1"
 
     if a.cmd == "gen":
         from .corpus_gen import write_all
@@ -46,11 +55,38 @@ def main(argv=None) -> int:
                   f"[{s['covered']}C/{s['partial']}P/{s['not found']}N]  {r['title']}")
     elif a.cmd == "eval":
         from . import text as _text
+        from .calibrate import format_mapping_table, mapping_eval
         from .evals import evaluate, format_table
+        from .mapping import MapCfg
+        from .retrieval import Index, Params, get_index, load_corpus
         if a.no_thesaurus:
             _text.USE_THESAURUS = False
-        res = evaluate(with_feedback=a.with_feedback)
-        print(json.dumps(res, indent=2) if a.json else format_table(res))
+        dense = a.dense
+        ix = Index(load_corpus(), Params(dense=dense)) if a.untuned else get_index(dense=dense)
+        splits = [a.split] if a.split else ["dev", "test"]
+        out = {}
+        for sp in splits:
+            res = evaluate(ix, with_feedback=a.with_feedback, split=None if sp == "all" else sp, modes=ix.modes())
+            out[sp] = res
+            if not a.json:
+                print(f"\n### {sp} split\n\n" + format_table(res))
+        if not a.json and not a.with_feedback and not a.no_thesaurus:
+            cfg = MapCfg() if a.untuned else MapCfg.tuned(dense)
+            rows = {}
+            for sp in [s for s in splits if s != "all"]:
+                for name, c in (("legacy overlap", MapCfg()), ("calibrated", cfg)):
+                    rows[f"{name} / {sp}"] = {**mapping_eval(ix, c, sp), "split": sp}
+            print("\n### Feature mapping accuracy (is the feature disclosed in the document?)\n")
+            print(format_mapping_table({k.split(" / ")[0]: v for k, v in rows.items()}))
+        if a.json:
+            print(json.dumps(out, indent=2))
+    elif a.cmd == "tune":
+        from .tune import tune
+        tune(dense=a.dense, samples=a.samples)
+        print("wrote data/tuned.json")
+    elif a.cmd == "report":
+        from .report import markdown, save
+        print(markdown(save(dense=a.dense)))
     elif a.cmd == "serve":
         import uvicorn
         uvicorn.run("priorart.app:app", host=a.host, port=a.port)

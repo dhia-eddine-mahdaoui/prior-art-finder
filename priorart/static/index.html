@@ -5,126 +5,333 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prior-art finder</title>
 <style>
-:root{--bg:#f6f7f9;--panel:#fff;--ink:#1c2230;--mute:#62697a;--line:#dfe3ea;--accent:#2f5bd8;
---ok:#1f8a4c;--okbg:#dff3e7;--part:#a86a00;--partbg:#fbeccc;--no:#6b7280;--nobg:#e8eaee;--mark:#fff1a8;--bad:#b3261e}
-@media (prefers-color-scheme:dark){:root{--bg:#12151b;--panel:#1a1f28;--ink:#e6e9ef;--mute:#9aa3b5;--line:#2b3240;--accent:#7fa2ff;
---ok:#5fd18d;--okbg:#163a27;--part:#f0b955;--partbg:#3d2d0e;--no:#9aa3b5;--nobg:#262c38;--mark:#6b5a10;--bad:#ff8a80}}
+:root{--bg:#f4f5f8;--panel:#fff;--ink:#192033;--mute:#5d6577;--line:#e0e4ec;--soft:#f0f2f7;--accent:#3b5bdb;--accent-ink:#fff;--accent-soft:#e8edff;
+--ok:#177a45;--okbg:#ddf3e6;--part:#9a5b00;--partbg:#fdeccb;--no:#6b7280;--nobg:#e9ebf0;--mark:#ffe58a;--bad:#b3261e;--shadow:0 1px 2px rgba(20,30,60,.06),0 4px 16px rgba(20,30,60,.05)}
+@media (prefers-color-scheme:dark){:root{--bg:#10131a;--panel:#171b24;--ink:#e7eaf2;--mute:#9aa3b6;--line:#2a3140;--soft:#1f2531;--accent:#8aa4ff;--accent-ink:#0d1220;--accent-soft:#222b4a;
+--ok:#63d393;--okbg:#14382a;--part:#f2bb5c;--partbg:#3b2c0d;--no:#9aa3b6;--nobg:#262c38;--mark:#6d5c12;--bad:#ff8a80;--shadow:none}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
-header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
-header h1{font-size:18px;margin:0}header span{color:var(--mute);font-size:13px}
-main{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:16px;padding:16px 20px;max-width:1300px;margin:0 auto}
-@media (max-width:860px){main{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
-label{display:block;font-size:12px;color:var(--mute);margin:10px 0 3px;text-transform:uppercase;letter-spacing:.04em}
-textarea,input,select{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
-textarea{min-height:210px;resize:vertical}
-.row{display:flex;gap:8px}.row>*{flex:1}
-button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 11px}
-button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;display:flex}
+button,input,select,textarea{font:inherit;color:inherit}
+.rail{width:208px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 12px;gap:4px;position:fixed;left:0;top:0;bottom:0}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 16px;font-weight:700;font-size:15px;letter-spacing:-.01em}
+.logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#7c5cff);display:grid;place-items:center;color:#fff;font-size:14px}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;color:var(--mute);text-decoration:none;font-weight:550}
+.nav a:hover{background:var(--soft);color:var(--ink)}.nav a.on{background:var(--accent-soft);color:var(--accent)}
+.rail .fine{margin-top:auto;font-size:11.5px;color:var(--mute);padding:8px;line-height:1.4}
+.wrap{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:208px}
+.top{flex:none;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:14px 28px;border-bottom:1px solid var(--line);background:var(--panel);min-height:60px;flex-wrap:nowrap}
+.top h1{font-size:18px;margin:0;letter-spacing:-.01em}
+.top .sub{color:var(--mute);font-size:13px;white-space:nowrap}
+.title-in{font-size:18px;font-weight:650;border:1px solid transparent;border-radius:7px;padding:3px 8px;background:transparent;flex:0 1 380px;min-width:120px;text-overflow:ellipsis;letter-spacing:-.01em}
+.title-in:hover{border-color:var(--line)}
+.page{padding:22px 28px 40px;max-width:1280px;width:100%}
+.steps{display:flex;gap:6px;margin-left:auto;flex:none}
+.step{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--mute);font-weight:600;font-size:13px}
+.step .n{width:20px;height:20px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:11px}
+.step.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}.step.on .n{background:var(--accent);color:var(--accent-ink)}
+.step small{font-weight:600;color:var(--mute)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+.card h2{font-size:14px;margin:0 0 10px;letter-spacing:.01em}
+.grid2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}.rail{display:none}.wrap{margin-left:0}}
+label.l{display:block;font-size:11.5px;font-weight:650;color:var(--mute);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.05em}
+textarea,input[type=text],input[type=date],select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:250px;resize:vertical;line-height:1.55}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 13px;font-weight:600;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.btn:hover{background:var(--soft)}
+a.btn{text-decoration:none;color:inherit}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{padding:4px 10px;font-size:12.5px}.btn.ghost{border-color:transparent;background:transparent;color:var(--mute)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row.sp{justify-content:space-between}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{padding:3px 9px;border:1px solid var(--line);border-radius:99px;font-size:13px;cursor:pointer;background:var(--bg)}
-.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
-.feat{margin:4px 0;padding:5px 8px;border-left:3px solid var(--accent);background:var(--bg);font-size:13px;border-radius:0 6px 6px 0}
-.feat b{color:var(--accent)}
-.res{margin-bottom:12px}
-.res h3{margin:0;font-size:16px}
-.meta{color:var(--mute);font-size:13px;margin:2px 0 8px}
-.rank{display:inline-block;min-width:26px;text-align:center;background:var(--accent);color:#fff;border-radius:5px;font-size:13px;margin-right:6px}
-.strip{display:flex;gap:3px;margin:6px 0}
-.cell{flex:1;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.chip{padding:3px 10px;border:1px solid var(--line);border-radius:99px;font-size:12.5px;cursor:pointer;background:var(--bg);font-weight:600}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.feat{display:flex;gap:8px;align-items:flex-start;margin:7px 0}
+.fid{flex:none;width:30px;height:24px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12px;display:grid;place-items:center;margin-top:5px}
+.feat textarea{min-height:0;height:56px;resize:vertical;font-size:13.5px;padding:6px 9px}
+.muted{color:var(--mute)}.small{font-size:12.5px}.err{color:var(--bad)}
+.bar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;padding:12px 14px;margin-bottom:14px}
+.bar>div{min-width:130px}.bar label.l{margin-top:0}
+.res{margin-bottom:14px}
+.rh{display:flex;gap:12px;align-items:flex-start}
+.rank{flex:none;width:30px;height:30px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-weight:700;display:grid;place-items:center}
+.rh h3{margin:0;font-size:15.5px;letter-spacing:-.01em}
+.meta{color:var(--mute);font-size:12.5px;margin-top:2px}
+.strip{display:flex;gap:4px;margin:12px 0 6px}
+.cell{flex:1;height:26px;border-radius:6px;display:grid;place-items:center;font-size:11.5px;font-weight:700;min-width:0}
 .covered{background:var(--okbg);color:var(--ok)}.partial{background:var(--partbg);color:var(--part)}.notfound{background:var(--nobg);color:var(--no)}
-.bar{height:6px;background:var(--nobg);border-radius:3px;overflow:hidden;margin:4px 0 8px}.bar i{display:block;height:100%;background:var(--accent)}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
-th,td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);vertical-align:top}
-th{color:var(--mute);font-weight:600}
-mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:2px}
-.badge{padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
-.fb button[aria-pressed=true]{border-color:var(--accent);font-weight:600}
-.fb button.rel[aria-pressed=true]{background:var(--okbg);color:var(--ok)}
-.fb button.non[aria-pressed=true]{background:var(--nobg);color:var(--bad)}
-summary{cursor:pointer;color:var(--accent);font-size:13px;margin-top:6px}
-.note{font-size:12px;color:var(--mute)}
-.err{color:var(--bad)}
-.legend{display:flex;gap:10px;font-size:12px;color:var(--mute);margin:0 0 10px;flex-wrap:wrap;align-items:center}
-.legend .badge{font-size:11px}
+.badge{display:inline-block;padding:1px 9px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.cov{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--mute)}
+.meter{flex:1;max-width:220px;height:6px;border-radius:3px;background:var(--nobg);overflow:hidden}.meter i{display:block;height:100%;background:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:650;background:var(--soft);border-top:0}
+.chart th:first-child,.chart td:first-child{width:24%}
+mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:3px}
+mark.soft{background:transparent;border-bottom:2px dotted var(--part);border-radius:0}
+.loc{display:inline-block;font-size:11px;font-weight:700;color:var(--mute);background:var(--soft);border-radius:5px;padding:0 6px;margin-right:6px;text-transform:uppercase;letter-spacing:.03em}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:12px}
+.tbl table{margin:0}
+details>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13px;margin-top:6px}
+.note{padding:10px 12px;border-radius:9px;background:var(--partbg);color:var(--part);font-size:13px;margin-bottom:14px}
+.info{padding:10px 12px;border-radius:9px;background:var(--accent-soft);color:var(--accent);font-size:13px;margin:0 0 14px}
+.proj{cursor:pointer}.proj:hover{border-color:var(--accent)}
+.projs{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.stat{display:flex;gap:18px;margin-top:10px;font-size:12.5px;color:var(--mute)}
+.bars{display:grid;grid-template-columns:150px 1fr 56px;gap:6px 10px;align-items:center;font-size:13px}
+.hb{height:12px;border-radius:6px;background:var(--nobg);overflow:hidden}.hb i{display:block;height:100%;border-radius:6px}
+.legend{display:flex;gap:10px;font-size:12px;color:var(--mute);align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.empty{text-align:center;padding:40px 10px;color:var(--mute)}
+.kpi{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}.kpi .card{flex:1;min-width:190px}
+.kpi b{font-size:26px;letter-spacing:-.02em;display:block}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:9px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
 </style>
 </head>
 <body>
-<header><h1>Prior-art finder</h1><span id="meta">prototype over a synthetic corpus - not legal advice</span></header>
-<main>
-<section class="card" aria-label="Disclosure input">
-  <label for="sample">Sample disclosure</label>
-  <select id="sample"><option value="">- paste your own -</option></select>
-  <label for="text">Invention disclosure</label>
-  <textarea id="text" placeholder="Paste a 1-2 paragraph disclosure..."></textarea>
-  <div class="row">
-    <div><label for="pdate">Priority date</label><input id="pdate" type="date"></div>
-    <div><label for="mode">Retrieval</label>
-      <select id="mode"><option value="hybrid_rerank">Hybrid + rerank</option><option value="hybrid">Hybrid</option>
-      <option value="bm25">BM25 only</option><option value="lsa">LSA only</option></select></div>
-  </div>
-  <label>Class filter (CPC-like prefix; none = all)</label>
-  <div class="chips" id="classes"></div>
-  <div class="row" style="margin-top:14px"><button class="primary" id="go">Find prior art</button><button id="export" disabled>Export report (.md)</button></div>
-  <p class="note" id="status" role="status"></p>
-  <div id="features"></div>
-</section>
-<section aria-label="Results" id="results"><div class="card note">Pick a sample or paste a disclosure, set a priority date, and run a search.</div></section>
-</main>
+<aside class="rail">
+  <div class="brand"><span class="logo">&#9906;</span>Prior-art finder</div>
+  <nav class="nav" aria-label="Main">
+    <a href="#/" id="nav-projects">Disclosures</a>
+    <a href="#/eval" id="nav-eval">Evaluation</a>
+  </nav>
+  <div class="fine" id="corpus-note">Synthetic corpus. Prototype, not legal advice.</div>
+</aside>
+<div class="wrap">
+  <header class="top" id="top"></header>
+  <main class="page" id="view" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
 <script>
-const $=id=>document.getElementById(id);
-let samples=[],sel=new Set(),last=null;
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cls=s=>s==='not found'?'notfound':s;
-async function api(path,body){const r=await fetch(path,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:undefined);
-  if(!r.ok){let m=r.statusText;try{m=JSON.stringify((await r.json()).detail)}catch(e){}throw new Error(m)}return r.json()}
-function payload(){return{text:$('text').value,priority_date:$('pdate').value||null,classes:[...sel],mode:$('mode').value,top_k:10}}
-async function init(){
-  samples=await api('/api/samples');
-  samples.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.id+' - '+s.title;$('sample').appendChild(o)});
-  const m=await api('/api/meta');$('meta').textContent=m.documents+' synthetic documents ('+m.date_range[0]+' to '+m.date_range[1]+') - prototype, not legal advice';
-  m.classes.forEach(([c,n])=>{const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed','false');b.textContent=c+' ('+n+')';
-    b.onclick=()=>{sel.has(c)?sel.delete(c):sel.add(c);b.setAttribute('aria-pressed',sel.has(c))};b.dataset.c=c;$('classes').appendChild(b)});
+const S={meta:null,samples:[],project:null,result:null,chart:null,filters:null,busy:false};
+async function api(path,method,body){
+  const r=await fetch(path,{method:method||(body?'POST':'GET'),headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});
+  if(!r.ok){let m=r.statusText;try{m=JSON.stringify((await r.json()).detail)}catch(e){}throw new Error(m)}
+  return r.json();
 }
-$('sample').onchange=e=>{const s=samples.find(x=>x.id===e.target.value);if(s){$('text').value=s.text;$('pdate').value=s.priority_date}};
-$('go').onclick=async()=>{
-  $('status').textContent='Searching...';$('status').className='note';
-  try{last=await api('/api/search',payload());render(last);$('export').disabled=false;
-    $('status').textContent=last.results.length+' results from '+last.candidates+' candidate documents ('+last.extractor+' feature extractor)'}
-  catch(e){$('status').textContent='Error: '+e.message;$('status').className='note err'}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2200)}
+const seg=m=>m.segments.map(s=>s.hit?`<mark class="${s.soft?'soft':''}">${esc(s.t)}</mark>`:esc(s.t)).join('');
+const badge=s=>`<span class="badge ${cls(s)}">${esc(s)}</span>`;
+const stepNames=['draft','search','shortlist','chart'];
+
+/* ---------------- routing ---------------- */
+async function route(){
+  const parts=location.hash.replace(/^#\/?/,'').split('/');
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('on'));
+  try{
+    if(parts[0]==='p'&&parts[1]){
+      $('#nav-projects').classList.add('on');
+      if(!S.project||S.project.id!==parts[1]){S.project=await api('/api/projects/'+parts[1]);S.result=null;S.chart=null;S.filters=null}
+      const step=stepNames.includes(parts[2])?parts[2]:'draft';
+      await renderProject(step);
+    }else if(parts[0]==='eval'){$('#nav-eval').classList.add('on');await renderEval()}
+    else{$('#nav-projects').classList.add('on');S.project=null;await renderProjects()}
+  }catch(e){$('#view').innerHTML=`<div class="card err">${esc(e.message)}</div>`}
+}
+window.addEventListener('hashchange',route);
+
+/* ---------------- projects list ---------------- */
+async function renderProjects(){
+  $('#top').innerHTML=`<h1>Invention disclosures</h1><span class="sub">Draft, search, shortlist and chart prior art for each disclosure</span>`;
+  const ps=await api('/api/projects');
+  const opts=S.samples.map(s=>`<option value="${esc(s.id)}">${esc(s.id)} - ${esc(s.title)}</option>`).join('');
+  $('#view').innerHTML=`<div class="card" style="margin-bottom:18px"><div class="row">
+    <div style="flex:1;min-width:260px"><label class="l" for="new-sample">Start from</label><select id="new-sample"><option value="">Blank disclosure</option>${opts}</select></div>
+    <button class="btn primary" id="new-btn" data-act="new" style="margin-top:18px">New disclosure</button></div></div>
+    ${ps.length?`<div class="projs">${ps.map(p=>`<article class="card proj" data-act="open" data-id="${esc(p.id)}" tabindex="0">
+      <div class="row sp"><h2 style="margin:0;font-size:15px">${esc(p.name)}</h2><button class="btn ghost sm" data-act="del" data-id="${esc(p.id)}" aria-label="Delete">Delete</button></div>
+      <p class="muted small" style="margin:8px 0 0">${esc(p.excerpt)}${p.excerpt.length>=140?'...':''}</p>
+      <div class="stat"><span>Priority ${esc(p.priority_date||'not set')}</span><span>${p.searches} searches</span><span>${p.shortlist} shortlisted</span></div></article>`).join('')}</div>`
+      :`<div class="empty">No disclosures yet. Start from a sample above to see the workflow.</div>`}`;
+}
+
+/* ---------------- project shell ---------------- */
+function shell(step){
+  const p=S.project,d=p.disclosure;
+  const nf=(d.features&&d.features.length)||(S.result?S.result.features.length:0);
+  const counts={draft:nf?nf+' features':'',search:S.result?S.result.results.length+' hits':(p.searches.length?p.searches.length+' runs':''),shortlist:p.shortlist.length?p.shortlist.length+' refs':'',chart:''};
+  $('#top').innerHTML=`<input class="title-in" id="pname" value="${esc(p.name)}" aria-label="Disclosure name"><span class="sub">Priority ${esc(d.priority_date||'not set')}</span>
+   <nav class="steps" aria-label="Workflow">${stepNames.map((s,i)=>`<button class="step ${s===step?'on':''}" data-act="step" data-step="${s}" id="step-${s}"><span class="n">${i+1}</span>${['Draft','Search','Shortlist','Claim chart'][i]}${counts[s]?` <small>${counts[s]}</small>`:''}</button>`).join('')}</nav>`;
+  $('#pname').onchange=async e=>{S.project=await api('/api/projects/'+p.id,'PUT',{name:e.target.value});toast('Saved')};
+}
+async function renderProject(step){
+  shell(step);
+  ({draft:renderDraft,search:renderSearch,shortlist:renderShortlist,chart:renderChart})[step]();
+}
+function goStep(s){location.hash=`#/p/${S.project.id}/${s}`}
+
+/* ---------------- 1. draft ---------------- */
+async function renderDraft(){
+  const d=S.project.disclosure;
+  if(!S.draftFeatures||S.draftFor!==S.project.id){
+    S.draftFor=S.project.id;S.draftFeatures=d.features&&d.features.length?[...d.features]:null;
+    if(!S.draftFeatures&&d.text.trim().length>=20)S.draftFeatures=(await api('/api/features','POST',{text:d.text})).features.map(f=>f.text);
+  }
+  const f=S.draftFeatures||[];
+  $('#view').innerHTML=`<div class="grid2"><section class="card"><h2>1. Invention disclosure</h2>
+    <label class="l" for="dtext">Disclosure text</label>
+    <textarea id="dtext" placeholder="Describe the invention in a few sentences: what it is and what makes it different.">${esc(d.text)}</textarea>
+    <div class="row" style="margin-top:6px"><div style="flex:1"><label class="l" for="dpd">Priority date</label><input type="date" id="dpd" value="${esc(d.priority_date||'')}"></div>
+    <div style="flex:2"><label class="l">Class filter (optional)</label><div class="chips" id="dclasses"></div></div></div></section>
+    <section class="card"><div class="row sp"><h2 style="margin:0">Key features <span class="muted small">(claim elements to look for)</span></h2><button class="btn sm" data-act="reextract" id="reextract">Re-extract</button></div>
+    <p class="muted small">Extracted from the text. Edit, add or remove features: the search and the claim chart use exactly this list.</p>
+    <div id="flist">${f.length?f.map((t,i)=>featRow(t,i)).join(''):'<div class="empty small">Features appear here once the disclosure text is written.</div>'}</div>
+    <div class="row" style="margin-top:10px"><button class="btn sm" data-act="addfeat" id="addfeat">+ Add feature</button></div>
+    <div class="row" style="margin-top:18px;justify-content:flex-end"><button class="btn primary" id="run" data-act="run">Run prior-art search &rarr;</button></div></section></div>`;
+  const cl=$('#dclasses');
+  S.meta.classes.forEach(([c,n])=>{const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed',d.classes.includes(c));b.textContent=c;b.dataset.act='dclass';b.dataset.c=c;cl.appendChild(b)});
+  $('#dtext').onchange=saveDraftText;$('#dpd').onchange=async e=>{S.project=await api('/api/projects/'+S.project.id,'PUT',{disclosure:{priority_date:e.target.value||null}});toast('Saved')};
+}
+const featRow=(t,i)=>`<div class="feat"><span class="fid">F${i+1}</span><textarea data-i="${i}" class="fin" aria-label="Feature ${i+1}">${esc(t)}</textarea><button class="btn ghost sm" data-act="delfeat" data-i="${i}" aria-label="Remove feature ${i+1}">&times;</button></div>`;
+async function saveDraftText(){
+  const text=$('#dtext').value;
+  S.project=await api('/api/projects/'+S.project.id,'PUT',{disclosure:{text}});
+  if(text.trim().length>=20&&!(S.project.disclosure.features||[]).length){S.draftFeatures=(await api('/api/features','POST',{text})).features.map(f=>f.text);renderDraftFeatures()}
+}
+function renderDraftFeatures(){const f=S.draftFeatures||[];$('#flist').innerHTML=f.length?f.map((t,i)=>featRow(t,i)).join(''):'<div class="empty small">No features yet.</div>'}
+async function persistFeatures(){S.project=await api('/api/projects/'+S.project.id,'PUT',{disclosure:{features:S.draftFeatures}});}
+document.addEventListener('change',async e=>{
+  if(e.target.classList.contains('fin')){S.draftFeatures[+e.target.dataset.i]=e.target.value;await persistFeatures();toast('Features saved')}
+});
+
+/* ---------------- 2. search ---------------- */
+async function runSearch(){
+  const p=S.project;if(S.busy)return;S.busy=true;
+  const f=S.filters||(S.filters={mode:'hybrid_rerank',top_k:10,priority_date:p.disclosure.priority_date,classes:[...p.disclosure.classes]});
+  $('#view').innerHTML='<div class="empty">Searching...</div>';
+  try{
+    S.result=await api(`/api/projects/${p.id}/search`,'POST',{mode:f.mode,top_k:f.top_k,priority_date:f.priority_date||'',classes:f.classes});
+    S.project=S.result.project;S.chart=null;S.open=new Set([S.result.results[0]&&S.result.results[0].id]);
+  }catch(e){toast(e.message)}finally{S.busy=false}
+  shell('search');renderSearch();
+}
+function renderSearch(){
+  const p=S.project;
+  if(!S.result){return runSearch()}
+  const f=S.filters||(S.filters={mode:'hybrid_rerank',top_k:10,priority_date:p.disclosure.priority_date,classes:[...p.disclosure.classes]});
+  const r=S.result,inList=id=>p.shortlist.find(x=>x.doc_id===id);
+  const modes={hybrid_rerank:'Hybrid + feature rerank',hybrid:'Hybrid (RRF)',bm25:'BM25 only',lsa:'LSA only',dense:'Neural embeddings'};
+  $('#view').innerHTML=`<section class="card bar" aria-label="Filters"><div><label class="l" for="fpd">Priority date cut-off</label><input type="date" id="fpd" value="${esc(f.priority_date||'')}"></div>
+    <div style="min-width:220px"><label class="l">Class filter</label><div class="chips" id="fclasses"></div></div>
+    <div><label class="l" for="fmode">Retrieval</label><select id="fmode">${S.meta.modes.map(m=>`<option value="${m}" ${m===f.mode?'selected':''}>${modes[m]||m}</option>`).join('')}</select></div>
+    <div style="min-width:90px"><label class="l" for="fk">Results</label><select id="fk">${[5,10,20].map(n=>`<option ${n===f.top_k?'selected':''}>${n}</option>`).join('')}</select></div>
+    <button class="btn primary" data-act="apply" id="apply">Apply filters</button>
+    <details style="margin-left:auto"><summary>Saved searches (${p.searches.length})</summary><div class="small" style="position:absolute;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;z-index:5;min-width:340px;box-shadow:var(--shadow)">
+    ${p.searches.length?p.searches.slice().reverse().map(s=>`<div class="row sp" style="padding:4px 0"><span><b>Search ${s.id}</b> <span class="muted">cut-off ${esc(s.params.priority_date||'none')}, ${esc((s.params.classes||[]).join('+')||'all classes')}, ${esc(s.params.mode)}</span></span><button class="btn sm" data-act="restore" data-id="${s.id}">Restore</button></div>`).join(''):'<span class="muted">None yet</span>'}</div></details></section>
+    <div class="info" id="searchinfo"><b>${r.results.length}</b> results from <b>${r.candidates}</b> candidate documents${r.excluded_by_date?` &middot; ${r.excluded_by_date} documents filed on or after the priority date are excluded`:''}${r.dense?' &middot; neural embeddings on':''}</div>
+    ${r.after_priority.length?`<details class="card" style="margin-bottom:14px;padding:10px 14px"><summary>Closest documents filed after the priority date (excluded)</summary>${r.after_priority.map(d=>`<div class="row sp small" style="padding:5px 0"><span>${esc(d.id)} ${esc(d.title)}</span><span class="muted">filed ${esc(d.filing_date)} &middot; coverage ${d.coverage.toFixed(2)}</span></div>`).join('')}</details>`:''}
+    <div class="legend">Feature coverage: ${badge('covered')} ${badge('partial')} ${badge('not found')}<span>Features: ${r.features.map(x=>`<b>${esc(x.id)}</b>`).join(' ')}</span></div>
+    ${r.results.map(x=>resCard(x,inList(x.id))).join('')||'<div class="empty">No documents match the filters.</div>'}`;
+  const cl=$('#fclasses');S.meta.classes.forEach(([c])=>{const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed',f.classes.includes(c));b.textContent=c;b.dataset.act='fclass';b.dataset.c=c;cl.appendChild(b)});
+}
+function resCard(r,sl){
+  const open=S.open&&S.open.has(r.id);
+  return `<article class="card res" data-id="${esc(r.id)}"><div class="rh"><span class="rank">${r.rank}</span><div style="flex:1;min-width:0"><h3>${esc(r.title)}</h3>
+   <div class="meta">${esc(r.id)} &middot; filed ${esc(r.filing_date)} &middot; ${esc(r.assignee)} &middot; ${r.cpc.map(esc).join(', ')}</div></div>
+   <button class="btn sm ${sl?'on':''}" data-act="shortlist" data-id="${esc(r.id)}">${sl?'&#9733; Shortlisted':'&#9734; Shortlist'}</button></div>
+   <div class="strip" role="img" aria-label="Feature coverage">${r.mapping.map(m=>`<div class="cell ${cls(m.status)}" title="${esc(m.feature_id+': '+m.status+' ('+m.score.toFixed(2)+')')}">${esc(m.feature_id)}</div>`).join('')}</div>
+   <div class="cov"><span>Coverage ${(r.coverage*100).toFixed(0)}%</span><span class="meter"><i style="width:${Math.round(r.coverage*100)}%"></i></span><span>${r.summary.covered} covered &middot; ${r.summary.partial} partial &middot; ${r.summary['not found']} not found</span></div>
+   <details ${open?'open':''} data-id="${esc(r.id)}" class="mapd"><summary>Claim-chart view: feature by feature</summary>
+   <div class="tbl"><table class="chart"><thead><tr><th>Disclosure feature</th><th>Status</th><th>Best matching passage in this reference</th></tr></thead><tbody>${r.mapping.map(m=>`<tr><td><b>${esc(m.feature_id)}</b> ${esc(m.feature)}</td><td>${badge(m.status)}<div class="muted small">${m.score.toFixed(2)}</div></td>
+   <td>${m.passage?`<span class="loc">${esc(m.kind)}</span>${seg(m)}`:'<span class="muted">No passage close enough</span>'}</td></tr>`).join('')}</tbody></table></div></details></article>`;
+}
+
+/* ---------------- 3. shortlist ---------------- */
+async function renderShortlist(){
+  const p=S.project;
+  if(!p.shortlist.length){$('#view').innerHTML=`<div class="card empty">Nothing shortlisted yet. Star references on the Search step to review them here.<div style="margin-top:14px"><button class="btn primary" data-act="step" data-step="search">Go to search results</button></div></div>`;return}
+  const chart=S.chart=await api(`/api/projects/${p.id}/chart`);
+  const opts=(v)=>[['relevant','Relevant'],['maybe','Maybe'],['not_relevant','Not relevant']].map(([k,l])=>`<option value="${k}" ${k===v?'selected':''}>${l}</option>`).join('');
+  const miss=chart.combined.filter(u=>u.status==='not found');
+  $('#view').innerHTML=`<div class="grid2"><section>${p.shortlist.map(s=>{
+      const ref=chart.references.find(r=>r.id===s.doc_id)||null;
+      const d=ref||{id:s.doc_id,title:s.doc_id,filing_date:'',assignee:'',mapping:[]};
+      const cells=(ref?ref.mapping:[]).map(m=>`<div class="cell ${cls(m.status)}" title="${esc(m.feature_id+': '+m.status)}">${esc(m.feature_id)}</div>`).join('');
+      return `<article class="card res" data-id="${esc(s.doc_id)}"><div class="rh"><div style="flex:1"><h3>${esc(d.title)}</h3><div class="meta">${esc(d.id)} &middot; filed ${esc(d.filing_date)} &middot; ${esc(d.assignee)}</div></div>
+      <select class="dec" data-id="${esc(s.doc_id)}" aria-label="Decision" style="width:150px">${opts(s.decision)}</select><button class="btn ghost sm" data-act="unshort" data-id="${esc(s.doc_id)}">Remove</button></div>
+      <div class="strip">${cells}</div><label class="l" for="n-${esc(s.doc_id)}">Reviewer note</label><textarea class="note-in" id="n-${esc(s.doc_id)}" data-id="${esc(s.doc_id)}" style="min-height:54px" placeholder="Why this reference matters, what to check in the full text...">${esc(s.note)}</textarea></article>`}).join('')}</section>
+    <aside><section class="card"><h2>Combined coverage of the shortlist</h2><p class="muted small">Does any shortlisted reference disclose each feature of the disclosure?</p>
+    ${chart.combined.map(u=>`<div class="row sp" style="padding:6px 0;border-top:1px solid var(--line)"><span class="small"><b>${esc(u.feature_id)}</b> ${esc(u.feature)}</span>${badge(u.status)}</div>`).join('')}
+    <div class="${miss.length?'info':'note'}" style="margin:14px 0 0">${miss.length?`${miss.length} of ${chart.combined.length} features are not disclosed by the shortlisted references: ${miss.map(u=>esc(u.feature_id)).join(', ')}. Check these first when arguing novelty.`:'Every feature is at least partly disclosed by the shortlist, so the disclosure is at risk. Review the passages closely.'}</div>
+    <div class="row" style="margin-top:14px;justify-content:flex-end"><button class="btn primary" data-act="step" data-step="chart" id="tochart">Build claim chart &rarr;</button></div></section></aside></div>`;
+}
+
+/* ---------------- 4. claim chart ---------------- */
+async function renderChart(){
+  const p=S.project;
+  if(!p.shortlist.length){$('#view').innerHTML=`<div class="card empty">Shortlist at least one reference to build a claim chart.</div>`;return}
+  const c=S.chart=await api(`/api/projects/${p.id}/chart`);
+  const refs=c.references;
+  $('#view').innerHTML=`<section class="card"><div class="row sp"><div><h2 style="margin:0">Claim chart</h2><span class="muted small">Each feature of the disclosure against each shortlisted reference, with the passage that supports it. Highlighted words matched the feature.</span></div>
+    <div class="row"><a class="btn" id="exp-md" href="/api/projects/${esc(p.id)}/chart?format=md" download="claim-chart.md">Export Markdown</a><a class="btn" id="exp-csv" href="/api/projects/${esc(p.id)}/chart?format=csv" download="claim-chart.csv">Export CSV</a></div></div>
+    <div class="tbl"><table class="chart"><thead><tr><th>Disclosure feature</th>${refs.map(r=>`<th>${esc(r.id)}<div class="muted small" style="text-transform:none;letter-spacing:0;font-weight:500">${esc(r.title)}<br>filed ${esc(r.filing_date)} &middot; ${esc(r.decision.replace('_',' '))}</div></th>`).join('')}<th>Combined</th></tr></thead><tbody>
+    ${c.features.map((f,i)=>`<tr><td><b>${esc(f.id)}</b> ${esc(f.text)}</td>${refs.map(r=>{const m=r.mapping[i];return `<td>${badge(m.status)} <span class="muted small">${m.score.toFixed(2)}</span>${m.passage?`<div class="small" style="margin-top:6px"><span class="loc">${esc(m.kind)}</span>${seg(m)}</div>`:''}</td>`}).join('')}<td>${badge(c.combined[i].status)}</td></tr>`).join('')}
+    </tbody></table></div></section>`;
+}
+
+/* ---------------- evaluation ---------------- */
+async function renderEval(){
+  $('#top').innerHTML=`<h1>Evaluation</h1><span class="sub">Settings are tuned on the dev queries only; the test queries are held out</span>`;
+  let r;try{r=await api('/api/eval')}catch(e){$('#view').innerHTML=`<div class="card empty">No evaluation report yet. Run <code>./run.sh report</code>.</div>`;return}
+  const t=r.retrieval,mp=r.mapping;
+  const hy=t.tuned.test.hybrid,bm=t.tuned.test.bm25;
+  const bars=(sp,name)=>{const d=t[name][sp];const colors={bm25:'#8b93a7',lsa:'#a99bd8',dense:'#6fb7a8',hybrid:'#3b5bdb',hybrid_rerank:'#2b3f9e'};
+    return Object.keys(r.labels).filter(m=>d[m]).map(m=>`<span>${esc(r.labels[m])}</span><div class="hb"><i style="width:${(d[m]['recall@10']*100).toFixed(1)}%;background:${colors[m]}"></i></div><b>${d[m]['recall@10'].toFixed(3)}</b>`).join('')};
+  const tbl=(sp,name)=>{const d=t[name][sp];return `<table><thead><tr><th>Retrieval</th><th>recall@10</th><th>nDCG@10</th><th>MAP</th></tr></thead><tbody>${Object.keys(r.labels).filter(m=>d[m]).map(m=>`<tr><td>${esc(r.labels[m])}</td><td>${d[m]['recall@10'].toFixed(3)}</td><td>${d[m]['ndcg@10'].toFixed(3)}</td><td>${d[m].map.toFixed(3)}</td></tr>`).join('')}</tbody></table>`};
+  $('#view').innerHTML=`<div class="kpi"><div class="card"><span class="muted small">Held-out test, hybrid recall@10</span><b>${hy['recall@10'].toFixed(3)}</b><span class="small muted">BM25 alone ${bm['recall@10'].toFixed(3)}</span></div>
+    <div class="card"><span class="muted small">Held-out test, hybrid + rerank nDCG@10</span><b>${t.tuned.test.hybrid_rerank['ndcg@10'].toFixed(3)}</b><span class="small muted">BM25 alone ${bm['ndcg@10'].toFixed(3)}</span></div>
+    <div class="card"><span class="muted small">Mapping: covered precision (test)</span><b>${mp.calibrated.test.covered_precision.toFixed(3)}</b><span class="small muted">covered recall ${mp.calibrated.test.covered_recall.toFixed(2)}, detect F1 ${mp.calibrated.test.detect_f1.toFixed(2)}</span></div>
+    <div class="card"><span class="muted small">Corpus and queries</span><b>${r.corpus_documents}</b><span class="small muted">documents; ${t.tuned.dev.n_queries} dev + ${t.tuned.test.n_queries} test queries</span></div></div>
+   <div class="grid2"><section class="card"><h2>Recall@10, held-out test queries, tuned</h2><div class="bars">${bars('test','tuned')}</div>
+   <h2 style="margin-top:20px">Same, before tuning</h2><div class="bars">${bars('test','untuned')}</div></section>
+   <section class="card"><h2>Dev queries (tuned on these)</h2><div class="bars">${bars('dev','tuned')}</div><div style="margin-top:16px" class="tbl">${tbl('test','tuned')}</div><p class="muted small">Table: test split, tuned settings.</p></section></div>
+   <section class="card" style="margin-top:18px"><h2>Feature mapping accuracy: is each feature really disclosed in the document?</h2><div class="tbl"><table><thead><tr><th>Mapping</th><th>Split</th><th>Covered precision</th><th>Covered recall</th><th>Detect F1 (covered + partial)</th><th>False-covered rate</th><th>Avg precision</th></tr></thead><tbody>
+   ${Object.entries(mp).flatMap(([n,d])=>Object.entries(d).map(([sp,m])=>`<tr><td>${esc(n)}</td><td>${sp}</td><td>${m.covered_precision.toFixed(3)}</td><td>${m.covered_recall.toFixed(3)}</td><td>${m.detect_f1.toFixed(3)}</td><td>${m.false_covered_rate.toFixed(3)}</td><td>${m.avg_precision.toFixed(3)}</td></tr>`)).join('')}</tbody></table></div>
+   <p class="muted small" style="margin-bottom:0">Labels come from the synthetic corpus generator, so numbers are optimistic compared with real patent text. ${t.tuned.test.n_queries} test queries is small: differences of a few hundredths are noise.</p></section>`;
+}
+
+/* ---------------- actions ---------------- */
+const acts={
+  async new(){const sid=$('#new-sample').value,s=S.samples.find(x=>x.id===sid);
+    const p=await api('/api/projects','POST',s?{name:s.title,text:s.text,priority_date:s.priority_date,classes:s.classes}:{name:'Untitled disclosure'});
+    S.project=p;S.result=null;S.chart=null;S.filters=null;S.draftFeatures=null;location.hash=`#/p/${p.id}/draft`},
+  open(b){S.result=null;S.filters=null;S.draftFeatures=null;location.hash=`#/p/${b.dataset.id}/draft`},
+  async del(b,e){e.stopPropagation();if(confirm('Delete this disclosure and its shortlist?')){await api('/api/projects/'+b.dataset.id,'DELETE');renderProjects()}},
+  step(b){goStep(b.dataset.step)},
+  async dclass(b){const d=S.project.disclosure,c=b.dataset.c,cl=d.classes.includes(c)?d.classes.filter(x=>x!==c):[...d.classes,c];
+    S.project=await api('/api/projects/'+S.project.id,'PUT',{disclosure:{classes:cl}});b.setAttribute('aria-pressed',cl.includes(c))},
+  async reextract(){S.draftFeatures=(await api('/api/features','POST',{text:$('#dtext').value})).features.map(f=>f.text);await persistFeatures();renderDraftFeatures();toast('Features re-extracted')},
+  async addfeat(){S.draftFeatures=[...(S.draftFeatures||[]),''];await persistFeatures();renderDraftFeatures();const t=document.querySelectorAll('.fin');t[t.length-1].focus()},
+  async delfeat(b){S.draftFeatures.splice(+b.dataset.i,1);await persistFeatures();renderDraftFeatures()},
+  async run(){await saveDraftText();S.result=null;S.filters=null;S.draftFeatures=S.draftFeatures&&S.draftFeatures.filter(x=>x.trim());if(S.draftFeatures)await persistFeatures();goStep('search')},
+  fclass(b){const f=S.filters,c=b.dataset.c;f.classes=f.classes.includes(c)?f.classes.filter(x=>x!==c):[...f.classes,c];b.setAttribute('aria-pressed',f.classes.includes(c))},
+  async apply(){const f=S.filters;f.priority_date=$('#fpd').value;f.mode=$('#fmode').value;f.top_k=+$('#fk').value;S.result=null;await runSearch()},
+  async restore(b){const s=S.project.searches.find(x=>x.id===+b.dataset.id);S.filters={mode:s.params.mode,top_k:s.params.top_k,priority_date:s.params.priority_date,classes:s.params.classes||[]};S.result=null;await runSearch()},
+  async shortlist(b){const id=b.dataset.id,on=S.project.shortlist.find(x=>x.doc_id===id);
+    S.project=on?await api(`/api/projects/${S.project.id}/shortlist/${id}`,'DELETE'):await api(`/api/projects/${S.project.id}/shortlist`,'PUT',{doc_id:id,decision:'maybe'});
+    toast(on?'Removed from shortlist':'Added to shortlist');shell('search');renderSearch()},
+  async unshort(b){S.project=await api(`/api/projects/${S.project.id}/shortlist/${b.dataset.id}`,'DELETE');shell('shortlist');renderShortlist()},
 };
-$('export').onclick=async()=>{const r=await api('/api/report',payload());
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.markdown],{type:'text/markdown'}));a.download='prior-art-report.md';a.click();URL.revokeObjectURL(a.href)};
-function render(d){
-  $('features').innerHTML='<label>Extracted features</label>'+d.features.map(f=>`<div class="feat"><b>${esc(f.id)}</b> ${esc(f.text)}</div>`).join('');
-  const legend='<div class="legend">Feature mapping: <span class="badge covered">covered</span><span class="badge partial">partial</span><span class="badge notfound">not found</span></div>';
-  $('results').innerHTML=legend+d.results.map(resCard).join('')||'<div class="card note">No documents match the filters.</div>';
-  document.querySelectorAll('.fb button').forEach(b=>b.onclick=()=>mark(b));
-}
-function resCard(r){
-  const strip=r.mapping.map(m=>`<div class="cell ${cls(m.status)}" title="${esc(m.feature_id+': '+m.status)}">${esc(m.feature_id)}</div>`).join('');
-  const rows=r.mapping.map(m=>`<tr><td><b>${esc(m.feature_id)}</b> ${esc(m.feature)}</td><td><span class="badge ${cls(m.status)}">${esc(m.status)}</span><div class="note">${m.score.toFixed(2)}</div></td>
-    <td>${m.passage?`<span class="note">${esc(m.kind)}:</span> `+m.segments.map(s=>s.hit?`<mark>${esc(s.t)}</mark>`:esc(s.t)).join(''):'<span class="note">-</span>'}</td></tr>`).join('');
-  const f=r.feedback;
-  return `<article class="card res" data-id="${esc(r.id)}"><h3><span class="rank">${r.rank}</span>${esc(r.title)}</h3>
-  <div class="meta">${esc(r.id)} - filed ${esc(r.filing_date)} - ${esc(r.assignee)} - ${r.cpc.map(esc).join(', ')}</div>
-  <div class="strip" aria-label="Feature coverage">${strip}</div>
-  <div class="bar" title="coverage ${r.coverage}"><i style="width:${Math.round(r.coverage*100)}%"></i></div>
-  <div class="note">Coverage ${r.coverage.toFixed(2)} - ${r.summary.covered} covered, ${r.summary.partial} partial, ${r.summary['not found']} not found</div>
-  <details><summary>Feature-by-feature mapping</summary><table><thead><tr><th>Feature</th><th>Status</th><th>Best matching passage</th></tr></thead><tbody>${rows}</tbody></table>
-  <p class="note">${esc(r.abstract)}</p></details>
-  <div class="fb row" style="margin-top:10px;max-width:340px"><button class="rel" data-l="relevant" aria-pressed="${f==='relevant'}">Relevant</button>
-  <button class="non" data-l="not_relevant" aria-pressed="${f==='not_relevant'}">Not relevant</button></div></article>`;
-}
-async function mark(b){
-  const card=b.closest('.res'),on=b.getAttribute('aria-pressed')==='true',label=on?'clear':b.dataset.l;
-  await api('/api/feedback',{text:$('text').value,doc_id:card.dataset.id,label});
-  card.querySelectorAll('.fb button').forEach(x=>x.setAttribute('aria-pressed',x===b&&!on));
-  $('status').textContent='Saved: '+card.dataset.id+' -> '+label.replace('_',' ');
-}
-init().catch(e=>{$('status').textContent='Failed to load: '+e.message});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b&&acts[b.dataset.act])acts[b.dataset.act](b,e)});
+document.addEventListener('change',async e=>{
+  if(e.target.classList.contains('dec')){S.project=await api(`/api/projects/${S.project.id}/shortlist`,'PUT',{doc_id:e.target.dataset.id,decision:e.target.value});toast('Decision saved');S.chart=null;renderShortlist()}
+  if(e.target.classList.contains('note-in')){S.project=await api(`/api/projects/${S.project.id}/shortlist`,'PUT',{doc_id:e.target.dataset.id,note:e.target.value});toast('Note saved')}
+});
+document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('mapd')&&S.open){e.target.open?S.open.add(e.target.dataset.id):S.open.delete(e.target.dataset.id)}},true);
+
+(async function init(){
+  try{
+    [S.meta,S.samples]=await Promise.all([api('/api/meta'),api('/api/samples')]);
+    $('#corpus-note').textContent=`${S.meta.documents} synthetic documents, filed ${S.meta.date_range[0].slice(0,4)}-${S.meta.date_range[1].slice(0,4)}. Prototype, not legal advice.`;
+    route();
+  }catch(e){$('#view').innerHTML=`<div class="card err">Failed to load: ${esc(e.message)}</div>`}
+})();
 </script>
 </body>
 </html>

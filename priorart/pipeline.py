@@ -7,8 +7,9 @@ import os
 import time
 from pathlib import Path
 
-from .features import get_extractor
+from .features import Feature, get_extractor
 from .retrieval import DATA, ROOT, Index, coverage, get_index
+from .text import analyze
 
 VAR = Path(os.environ.get("PRIORART_VAR", ROOT / "var"))
 
@@ -27,6 +28,16 @@ def sample_id_for(text: str) -> str | None:
         if " ".join(s["text"].split()) == norm:
             return s["id"]
     return None
+
+
+def features_from_texts(texts: list[str]) -> list[Feature]:
+    """Features edited or typed by the reviewer (same structure as extracted ones)."""
+    out = []
+    for t in texts:
+        t = " ".join(t.split())
+        if t:
+            out.append(Feature(id=f"F{len(out) + 1}", text=t, stems=sorted(set(analyze(t)))))
+    return out
 
 
 # ---- feedback (relevance judgements saved locally; extend the eval set) ----
@@ -64,12 +75,21 @@ def current_feedback(text: str) -> dict[str, str]:
     return out
 
 
+def doc_card(d: dict) -> dict:
+    return {"id": d["id"], "title": d["title"], "assignee": d["assignee"], "filing_date": d["filing_date"],
+            "cpc": d["cpc"], "abstract": d["abstract"]}
+
+
 # ---- search ----
 def run_search(text: str, index: Index | None = None, priority_date: str | None = None,
-               classes: list[str] | None = None, top_k: int = 10, mode: str = "hybrid_rerank") -> dict:
+               classes: list[str] | None = None, top_k: int = 10, mode: str = "hybrid_rerank",
+               feature_texts: list[str] | None = None) -> dict:
     index = index or get_index()
-    feats = get_extractor().extract(text)
+    ext = get_extractor()
+    feats = features_from_texts(feature_texts) if feature_texts else ext.extract(text)
     mask = index.mask(classes, priority_date)
+    if mode not in index.modes():
+        mode = "hybrid_rerank"
     hits = index.search(text, mode=mode, mask=mask, k=top_k, features=feats)
     fb = current_feedback(text)
     results = []
@@ -77,12 +97,32 @@ def run_search(text: str, index: Index | None = None, priority_date: str | None 
         d = index.docs[h["idx"]]
         mapping = index.map_features(h["idx"], feats)
         results.append({"rank": rank, "score": round(h["score"], 4), "coverage": round(coverage(mapping), 3),
-                        "id": d["id"], "title": d["title"], "assignee": d["assignee"], "filing_date": d["filing_date"],
-                        "cpc": d["cpc"], "abstract": d["abstract"], "mapping": mapping,
+                        **doc_card(d), "mapping": mapping,
                         "summary": {s: sum(1 for m in mapping if m["status"] == s) for s in ("covered", "partial", "not found")},
                         "feedback": fb.get(d["id"])})
-    return {"query_id": sample_id_for(text) or query_id(text), "mode": mode, "extractor": get_extractor().name,
-            "features": [f.to_dict() for f in feats], "candidates": int(mask.sum()), "results": results}
+    # strong matches that the priority-date filter removed: shown separately so the cut-off is transparent
+    late = []
+    if priority_date:
+        late_mask = index.mask(classes) & ~index.mask(classes, priority_date)
+        if late_mask.any():
+            for h in index.search(text, mode="hybrid", mask=late_mask, k=3, features=feats):
+                d = index.docs[h["idx"]]
+                cov = coverage(index.map_features(h["idx"], feats))
+                late.append({**doc_card(d), "coverage": round(cov, 3)})
+    return {"query_id": sample_id_for(text) or query_id(text), "mode": mode, "extractor": ext.name,
+            "dense": index.dense_docs is not None,
+            "features": [f.to_dict() for f in feats], "candidates": int(mask.sum()), "corpus_size": len(index.docs),
+            "excluded_by_date": int((index.mask(classes) & ~mask).sum()), "after_priority": late,
+            "results": results}
+
+
+def chart_for(index: Index, feats: list[Feature], doc_ids: list[str]) -> list[dict]:
+    """Claim chart: for each reference, the mapping of every feature."""
+    out = []
+    for did in doc_ids:
+        i = index.by_id[did]
+        out.append({**doc_card(index.docs[i]), "mapping": index.map_features(i, feats)})
+    return out
 
 
 def markdown_report(text: str, res: dict, priority_date: str | None, classes: list[str] | None) -> str:

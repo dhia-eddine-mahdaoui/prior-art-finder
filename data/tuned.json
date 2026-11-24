@@ -1,0 +1,36 @@
+{
+  "classical": {
+    "mapping": {
+      "bias": -3.8134,
+      "covered": 0.9,
+      "method": "calibrated",
+      "partial": 0.4,
+      "tau": 0.6,
+      "weights": [
+        8.7954,
+        3.7999,
+        -1.1066,
+        2.9864,
+        0.0
+      ]
+    },
+    "retrieval": {
+      "b": 0.3,
+      "dense": false,
+      "depth": 40,
+      "dims": 96,
+      "k1": 0.8,
+      "prf_beta": 1.0,
+      "prf_docs": 5,
+      "prf_terms": 25,
+      "qtf_pow": 0.5,
+      "rerank_alpha": 0.5,
+      "rrf_k": 40,
+      "w_bm25": 1.0,
+      "w_dense": 0.0,
+      "w_feat": 0.5,
+      "w_lsa": 0.6
+    }
+  },
+  "dev_only": "tuned on the dev split; the test split was not read"
+}

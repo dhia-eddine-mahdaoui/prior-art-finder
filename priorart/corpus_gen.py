@@ -14,6 +14,8 @@ import random
 from datetime import date, timedelta
 from pathlib import Path
 
+from .corpus_extra import EXTRA, disclosure_text
+
 DATA = Path(__file__).resolve().parent.parent / "data"
 
 AREAS = {
@@ -258,7 +260,7 @@ def _cap(s: str) -> str:
     return s[0].upper() + s[1:]
 
 
-def _make_doc(rng, area, feats, shorts, filing, assignee=None, key=None):
+def _make_doc(rng, area, feats, shorts, filing, assignee=None, key=None, present=None):
     a = AREAS[area]
     subject = rng.choice(a["subjects"])
     feats = list(feats)
@@ -284,7 +286,7 @@ def _make_doc(rng, area, feats, shorts, filing, assignee=None, key=None):
             cpc.append(c)
     return {"id": None, "title": title, "abstract": abstract, "claims": claims, "cpc": cpc,
             "filing_date": filing.isoformat(), "assignee": assignee or rng.choice(a["assignees"]),
-            "area": area, "_key": key}
+            "area": area, "_key": key, "_present": present or {}}
 
 
 def _near_dup(rng, d, key):
@@ -297,7 +299,9 @@ def _near_dup(rng, d, key):
         if old in n["abstract"] and rng.random() < 0.7:
             n["abstract"] = n["abstract"].replace(old, new, 1)
     if len(n["claims"]) > 2:
+        dropped = 3 + len(n["claims"]) - 2   # index of the feature carried only by the last dependent claim
         n["claims"] = n["claims"][:-1]
+        n["_present"] = {k: i for k, i in n["_present"].items() if i != dropped}
     n["title"] = n["title"] + " (continuation)" if rng.random() < 0.5 else n["title"]
     return n
 
@@ -307,21 +311,38 @@ def _rand_date(rng, lo=(2009, 1, 1), hi=(2022, 12, 31)):
     return a + timedelta(days=rng.randrange((b - a).days))
 
 
+def _all_disclosures():
+    """Original D1-D4 (features live in AREAS) followed by the extra disclosures D5-D16."""
+    out = []
+    for d in DISCLOSURES:
+        a = AREAS[d["area"]]
+        out.append({**d, "split": "dev", "spec": {k: list(v) for k, v in a["special"].items()}, "decoys": a["decoys"]})
+    for e in EXTRA:
+        out.append({"id": e["id"], "area": e["area"], "title": e["title"], "priority_date": e["priority"],
+                    "classes": e["classes"], "text": disclosure_text(e), "split": e["split"],
+                    "spec": {f"{e['id']}.{i + 1}": list(f) for i, f in enumerate(e["feats"])}, "decoys": e["decoys"]})
+    return out
+
+
 def build_corpus(seed: int = 7):
     rng = random.Random(seed)
-    docs, labels = [], {}
-    for disc in DISCLOSURES:
+    docs, labels, gold_spec = [], {}, {}
+    for disc in _all_disclosures():
         area = disc["area"]
         a = AREAS[area]
         did = disc["id"]
-        spec = a["special"]
+        spec = disc["spec"]
         keys = list(spec)
         gen = a["general"]
         grades = {}
+        gold_spec[did] = {k: v[0] for k, v in spec.items()}
 
         def gen_pick(n):
             g = rng.sample(gen, n)
             return [x[1] for x in g], [x[0] for x in g]
+
+        def present_of(ks):
+            return {k: i for i, k in enumerate(ks)}
 
         # close prior art: five of six features each, increasingly paraphrased
         close = []
@@ -330,7 +351,7 @@ def build_corpus(seed: int = 7):
             rng.shuffle(ks)
             gf, gs = gen_pick(1)
             feats = [spec[k][vmix[i]] for i, k in enumerate(ks)] + gf
-            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2016, 1, 1), (2022, 1, 31)), key=f"{did}-close{ci}")
+            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2016, 1, 1), (2022, 1, 31)), key=f"{did}-close{ci}", present=present_of(ks))
             docs.append(d); close.append(d); grades[d["_key"]] = 3
         for ci in (0, 1):
             d = _near_dup(rng, close[ci], f"{did}-dup{ci}")
@@ -340,11 +361,14 @@ def build_corpus(seed: int = 7):
             ks = rng.sample(keys, n)
             gf, gs = gen_pick(3)
             feats = [spec[k][rng.choice([1, 2])] for k in ks] + gf
-            rng.shuffle(feats)
-            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2012, 1, 1), (2022, 1, 31)), key=f"{did}-part{pi}")
+            order = list(range(len(feats)))
+            rng.shuffle(order)
+            feats = [feats[j] for j in order]
+            present = {ks[j]: order.index(j) for j in range(n)}
+            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2012, 1, 1), (2022, 1, 31)), key=f"{did}-part{pi}", present=present)
             docs.append(d); grades[d["_key"]] = 2 if n == 3 else 1
         # hard decoys: vocabulary overlap, different mechanism
-        for di, dec in enumerate(a["decoys"]):
+        for di, dec in enumerate(disc["decoys"]):
             gf, gs = gen_pick(3)
             d = _make_doc(rng, area, [dec] + gf, gs, _rand_date(rng, (2012, 1, 1), (2022, 6, 30)), key=f"{did}-decoy{di}")
             docs.append(d); grades[d["_key"]] = 0
@@ -353,14 +377,14 @@ def build_corpus(seed: int = 7):
             ks = rng.sample(keys, 5)
             gf, gs = gen_pick(1)
             feats = [spec[k][rng.choice([0, 1])] for k in ks] + gf
-            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2023, 8, 1), (2024, 6, 30)), key=f"{did}-late{li}")
+            d = _make_doc(rng, area, feats, gs, _rand_date(rng, (2023, 8, 1), (2024, 6, 30)), key=f"{did}-late{li}", present=present_of(ks))
             docs.append(d); grades[d["_key"]] = 0
         labels[did] = grades
 
     # background documents and background near-duplicates
     for area, a in AREAS.items():
         bg = []
-        for i in range(42):
+        for i in range(60):
             n = rng.choice([3, 4, 4, 5])
             g = rng.sample(a["general"], n)
             d = _make_doc(rng, area, [x[1] for x in g], [x[0] for x in g], _rand_date(rng), key=f"bg-{area}-{i}")
@@ -369,23 +393,32 @@ def build_corpus(seed: int = 7):
             docs.append(_near_dup(rng, src, f"bgdup-{area}-{i}"))
 
     rng.shuffle(docs)
-    key2id = {}
+    key2id, present_by_id = {}, {}
     for i, d in enumerate(docs, 1):
         d["id"] = f"SYN-{i:04d}"
         key2id[d.pop("_key")] = d["id"]
+        present_by_id[d["id"]] = d.pop("_present")
     qrels = {did: {key2id[k]: g for k, g in gr.items()} for did, gr in labels.items()}
-    return docs, qrels
+    # feature-level gold: which key feature of each disclosure is really disclosed in each document
+    gold = {did: {"features": gold_spec[did],
+                  "docs": {i: sorted(k for k in pr if k in gold_spec[did]) for i, pr in present_by_id.items()}}
+            for did in gold_spec}
+    return docs, qrels, gold
 
 
 def write_all(seed: int = 7):
     DATA.mkdir(exist_ok=True)
-    docs, qrels = build_corpus(seed)
+    docs, qrels, gold = build_corpus(seed)
     with open(DATA / "corpus.jsonl", "w", encoding="utf-8") as f:
         for d in docs:
             f.write(json.dumps(d, ensure_ascii=False) + "\n")
-    discl = [{k: v for k, v in d.items() if k != "area"} for d in DISCLOSURES]
+    discl = [{k: v for k, v in d.items() if k in ("id", "title", "priority_date", "classes", "text", "split")}
+             for d in _all_disclosures()]
     (DATA / "disclosures.json").write_text(json.dumps(discl, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     (DATA / "qrels.json").write_text(json.dumps(qrels, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # keep only positive presence per document to keep the file small
+    slim = {q: {"features": g["features"], "docs": {i: k for i, k in g["docs"].items() if k}} for q, g in gold.items()}
+    (DATA / "feature_gold.json").write_text(json.dumps(slim, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return len(docs)
 
 

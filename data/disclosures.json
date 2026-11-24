@@ -6,7 +6,8 @@
     "classes": [
       "H01M"
     ],
-    "text": "We propose a thermal management arrangement for a traction battery pack used in electric vehicles. A phase-change material layer is disposed between adjacent battery cells to absorb heat during fast charging. Underneath the cells, a cooling plate having serpentine microchannels circulates coolant. A controller adjusts coolant flow rate using a predictive model of the cell temperature gradient, rather than reacting to absolute temperature. Thermal runaway is detected when a rate of temperature rise exceeds a threshold, in which case an intumescent barrier and a venting channel direct ejected gas away from adjacent cells. In cold ambient conditions a reversible heat pump pre-heats the battery pack before charging."
+    "text": "We propose a thermal management arrangement for a traction battery pack used in electric vehicles. A phase-change material layer is disposed between adjacent battery cells to absorb heat during fast charging. Underneath the cells, a cooling plate having serpentine microchannels circulates coolant. A controller adjusts coolant flow rate using a predictive model of the cell temperature gradient, rather than reacting to absolute temperature. Thermal runaway is detected when a rate of temperature rise exceeds a threshold, in which case an intumescent barrier and a venting channel direct ejected gas away from adjacent cells. In cold ambient conditions a reversible heat pump pre-heats the battery pack before charging.",
+    "split": "dev"
   },
   {
     "id": "D2",
@@ -17,7 +18,8 @@
       "G01P",
       "G05B"
     ],
-    "text": "The disclosure describes a wireless condition monitoring node for rotating machinery in a plant. A piezoelectric energy harvester powers the sensor node from machine vibration, so no batteries are replaced. A MEMS accelerometer is sampled at an adaptive rate that increases when vibration amplitude rises. On-device spectral feature extraction using a fast Fourier transform feeds an autoencoder computing an anomaly score. A low-power mesh radio transmits only when the anomaly score exceeds a threshold; otherwise the node sleeps. Temperature compensation of accelerometer drift uses a reference thermistor, and time-synchronised timestamps are shared across nodes of the mesh."
+    "text": "The disclosure describes a wireless condition monitoring node for rotating machinery in a plant. A piezoelectric energy harvester powers the sensor node from machine vibration, so no batteries are replaced. A MEMS accelerometer is sampled at an adaptive rate that increases when vibration amplitude rises. On-device spectral feature extraction using a fast Fourier transform feeds an autoencoder computing an anomaly score. A low-power mesh radio transmits only when the anomaly score exceeds a threshold; otherwise the node sleeps. Temperature compensation of accelerometer drift uses a reference thermistor, and time-synchronised timestamps are shared across nodes of the mesh.",
+    "split": "dev"
   },
   {
     "id": "D3",
@@ -27,7 +29,8 @@
       "C09D",
       "C23F"
     ],
-    "text": "We present a multilayer protective coating for buried steel pipelines. Microcapsules containing a corrosion inhibitor release when a crack forms in the coating. Graphene oxide platelets aligned parallel to the surface within an epoxy matrix lengthen the diffusion path of water and chloride. A zinc-rich primer layer provides sacrificial cathodic protection to the steel substrate, applied over a silane adhesion promoter on a grit-blasted surface. The topcoat is cured by ultraviolet light-emitting diodes to a dry film thickness of 80 to 120 micrometres. An embedded electrochemical impedance sensor monitors degradation of the coating during service."
+    "text": "We present a multilayer protective coating for buried steel pipelines. Microcapsules containing a corrosion inhibitor release when a crack forms in the coating. Graphene oxide platelets aligned parallel to the surface within an epoxy matrix lengthen the diffusion path of water and chloride. A zinc-rich primer layer provides sacrificial cathodic protection to the steel substrate, applied over a silane adhesion promoter on a grit-blasted surface. The topcoat is cured by ultraviolet light-emitting diodes to a dry film thickness of 80 to 120 micrometres. An embedded electrochemical impedance sensor monitors degradation of the coating during service.",
+    "split": "dev"
   },
   {
     "id": "D4",
@@ -37,6 +40,140 @@
       "B22F",
       "B33Y"
     ],
-    "text": "This application relates to a laser powder bed fusion machine with in-situ quality control. A coaxial photodiode measures melt pool emission through the laser optics. A high-speed camera captures thermal images that are used to determine melt pool width. A controller adjusts laser power for each scan vector in real time based on the monitored signal. Before exposure, a line sensor mounted on the recoater scans each powder layer to detect streaks. An inert gas flow with an oxygen sensor and a spatter shield is arranged above the build plate, and the build plate is preheated with a temperature gradient across its area."
+    "text": "This application relates to a laser powder bed fusion machine with in-situ quality control. A coaxial photodiode measures melt pool emission through the laser optics. A high-speed camera captures thermal images that are used to determine melt pool width. A controller adjusts laser power for each scan vector in real time based on the monitored signal. Before exposure, a line sensor mounted on the recoater scans each powder layer to detect streaks. An inert gas flow with an oxygen sensor and a spatter shield is arranged above the build plate, and the build plate is preheated with a temperature gradient across its area.",
+    "split": "dev"
+  },
+  {
+    "id": "D5",
+    "title": "Swelling-aware pack compression control",
+    "priority_date": "2022-09-12",
+    "classes": [
+      "H01M"
+    ],
+    "text": "We propose a battery pack for electric vehicles that senses and manages cell swelling over its service life. The pack comprises a fibre optic strain sensor embedded between cells that measures cell swelling. The pack further includes an adjustable compression plate whose clamping force is set by an actuator according to the measured swelling. The pack additionally has a spring-loaded foam spacer that keeps contact pressure constant over the cell life. The pack also employs an equivalent-circuit model estimating internal resistance growth from the pulse current response. The pack includes a charging profile that reduces current when the swelling rate exceeds a limit. The pack further comprises a history of swelling events stored in a controller memory for maintenance planning.",
+    "split": "dev"
+  },
+  {
+    "id": "D6",
+    "title": "Second-life module sorting and reconfiguration",
+    "priority_date": "2023-02-20",
+    "classes": [
+      "H01M",
+      "B60L"
+    ],
+    "text": "The disclosure relates to a system that reuses retired electric vehicle cells in stationary storage modules. The system comprises a testing station that measures capacity and impedance of each retired cell with a standardised pulse protocol. The system further includes a clustering algorithm that groups cells into matched sets based on the measured capacity and impedance. The system additionally has a reconfigurable switch matrix that rewires series and parallel connections of the cell groups during operation. The system also employs a bypass circuit that isolates a failing cell group without interrupting current to the load. The system includes a digital passport stored on each module recording its usage history and test results. The system further comprises a disassembly fixture with a robotic gripper for removing cells from the original pack without damage.",
+    "split": "test"
+  },
+  {
+    "id": "D7",
+    "title": "Cold-weather lithium plating prevention",
+    "priority_date": "2023-07-12",
+    "classes": [
+      "H01M"
+    ],
+    "text": "We disclose a battery and charging method that avoids lithium plating when the vehicle is charged in freezing conditions. The battery comprises a nickel foil heating element embedded in the cell stack that is energised by the cell's own current. The battery further includes a temperature-dependent charge current limit read from a lookup table stored in the controller. The battery additionally has an alternating current excitation at a selected frequency that warms the cell through internal impedance. The battery also employs a lithium plating detector that analyses the voltage plateau during relaxation after charging. The battery includes an insulated pack lid with aerogel panels reducing heat loss in parked vehicles. The battery further comprises a preconditioning schedule synchronised with the navigation destination and departure time.",
+    "split": "test"
+  },
+  {
+    "id": "D8",
+    "title": "Wireless acoustic leak detection for pipe networks",
+    "priority_date": "2022-07-19",
+    "classes": [
+      "G01M",
+      "H04Q"
+    ],
+    "text": "The disclosure describes a battery-free acoustic monitor for finding leaks in pressurised water mains. The monitor comprises a hydrophone clamped to the pipe wall that records acoustic emission of a leak. The monitor further includes a cross-correlation of signals from two sensors to locate the leak position along the pipe. The monitor additionally has a night-time measurement window that exploits low background noise from consumers. The monitor also employs a solar cell and a supercapacitor supplying the transmitter in the street cabinet. The monitor includes a narrowband cellular link that uploads a leak confidence value once per day. The monitor further comprises a machine learning classifier distinguishing leak noise from pump and traffic noise.",
+    "split": "dev"
+  },
+  {
+    "id": "D9",
+    "title": "Tool wear monitoring from spindle load and acoustic emission",
+    "priority_date": "2023-04-03",
+    "classes": [
+      "G01M",
+      "G05B"
+    ],
+    "text": "We propose a monitoring system that estimates cutting tool wear on a machining centre without stopping production. The system comprises a current clamp on the spindle drive phase that records motor load during cutting. The system further includes an acoustic emission sensor attached to the tool holder detecting high-frequency bursts. The system additionally has a feature vector combining root-mean-square load and spectral band energy for each cut. The system also employs a regression model that outputs flank wear width in micrometres. The system includes a numerical control interface that triggers a tool change when the wear estimate reaches a limit. The system further comprises a digital twin of the cutting process calibrated using the first workpiece of a batch.",
+    "split": "test"
+  },
+  {
+    "id": "D10",
+    "title": "Wireless thermal monitoring of switchgear cabinets",
+    "priority_date": "2022-12-12",
+    "classes": [
+      "G01M",
+      "G05B",
+      "H04Q"
+    ],
+    "text": "This application relates to condition monitoring of medium-voltage switchgear in substations. The monitor comprises a passive surface acoustic wave tag on each busbar joint that reports temperature without a battery. The monitor further includes an interrogator antenna inside the cabinet that reads the tags at intervals. The monitor additionally has a thermal imaging window made of infrared-transparent material fitted in the door. The monitor also employs a baseline of normal temperature rise as a function of load current learned during commissioning. The monitor includes an alert issued when the temperature exceeds the baseline by a margin for a dwell time. The monitor further comprises an arc flash sensor with light detection tripping a breaker within milliseconds.",
+    "split": "test"
+  },
+  {
+    "id": "D11",
+    "title": "Anti-icing coating for wind turbine blades",
+    "priority_date": "2022-10-17",
+    "classes": [
+      "C09D",
+      "B05D"
+    ],
+    "text": "We present a multifunctional coating system that keeps wind turbine blades free of ice in cold climates. The coating comprises a slippery liquid-infused porous surface layer that lowers ice adhesion. The coating further includes a carbon black filled polyurethane layer absorbing sunlight and converting it to heat. The coating additionally has an electrothermal heating mat embedded below the coating and powered by a controller. The coating also employs a rain erosion resistant leading edge shield of thermoplastic polyurethane tape. The coating includes an ice sensor measuring the resonance shift of a vibrating element. The coating further comprises a nanosilica additive roughening the surface at the sub-micron scale.",
+    "split": "dev"
+  },
+  {
+    "id": "D12",
+    "title": "Bio-based intumescent coating for timber",
+    "priority_date": "2023-03-01",
+    "classes": [
+      "C09D",
+      "C08K"
+    ],
+    "text": "The disclosure relates to a fire-retardant coating for structural timber that replaces halogenated additives. The coating comprises a phytic acid phosphorus source derived from rice bran. The coating further includes chitosan as a carbon source forming a foam char on heating. The coating additionally has a waterborne acrylic binder with less than fifty grams per litre of volatile organic compounds. The coating also employs expandable graphite flakes increasing the intumescent expansion ratio. The coating includes a cone calorimeter acceptance test requiring a peak heat release rate reduction of forty percent. The coating further comprises a clear topcoat of polyurethane protecting the intumescent layer from moisture.",
+    "split": "test"
+  },
+  {
+    "id": "D13",
+    "title": "Pipeline field joint coating with weld-zone preparation",
+    "priority_date": "2023-07-10",
+    "classes": [
+      "C09D",
+      "C23F"
+    ],
+    "text": "We describe a field-applied coating system for the girth weld region of buried steel pipelines. The system comprises a heat shrinkable sleeve with a mastic adhesive applied over the girth weld. The system further includes an induction heating coil that preheats the steel to a defined temperature before application. The system additionally has a holiday detector applying a high voltage to find pinholes in the coating. The system also employs a two-component epoxy primer with an amine hardener sprayed onto the grit-blasted weld zone. The system includes a pull-off adhesion test recording the load in megapascals. The system further comprises a wireless tag buried at the joint storing the application parameters and operator identity.",
+    "split": "test"
+  },
+  {
+    "id": "D14",
+    "title": "Powder reuse monitoring for laser powder bed fusion",
+    "priority_date": "2022-12-05",
+    "classes": [
+      "B22F",
+      "B33Y"
+    ],
+    "text": "This disclosure concerns a powder management system that qualifies recycled metal powder between laser powder bed fusion builds. The system comprises a laser diffraction analyser that measures the particle size distribution of recycled powder. The system further includes a flowability test using a Hall funnel timing the discharge of the powder. The system additionally has an inert gas fusion analyser measuring the oxygen and nitrogen content of the powder. The system also employs a blending station that mixes used powder with virgin powder at a ratio selected from the measured properties. The system includes a batch record that links every part to the powder lot and the number of reuse cycles. The system further comprises a sealed transfer container that moves the powder under argon without exposure to air.",
+    "split": "dev"
+  },
+  {
+    "id": "D15",
+    "title": "Support-free overhang printing with adaptive exposure",
+    "priority_date": "2023-05-22",
+    "classes": [
+      "B22F",
+      "B33Y",
+      "B29C"
+    ],
+    "text": "We propose a laser powder bed fusion method that builds overhanging surfaces with little or no support structure. The machine comprises a geometry analyser that classifies downward-facing surfaces by overhang angle. The machine further includes a reduced laser power and increased scan speed assigned to the downskin region. The machine additionally has an island scan pattern with checkerboard sectors of five millimetre width. The machine also employs a thin sacrificial gusset that is removed by wire cutting. The machine includes a thermal camera that detects overheating beneath overhangs and flags the layer. The machine further comprises a machine learning model trained on past builds that predicts dross formation from the scan parameters.",
+    "split": "test"
+  },
+  {
+    "id": "D16",
+    "title": "Wire-arc additive manufacturing with interlayer rolling",
+    "priority_date": "2023-02-14",
+    "classes": [
+      "B22F",
+      "B23K",
+      "B33Y"
+    ],
+    "text": "The disclosure describes a robotic wire-arc additive manufacturing apparatus for large metal components. The apparatus comprises a roller that presses each deposited bead while it is still hot. The apparatus further includes a laser line scanner that measures the bead height profile after each layer. The apparatus additionally has a controller that modifies the wire feed speed to keep the next layer height at a target. The apparatus also employs an interpass temperature sensor holding the substrate below a limit before the next layer starts. The apparatus includes a trailing shielding gas nozzle that protects the cooling bead from oxidation. The apparatus further comprises a robot path generated from sliced geometry with continuous spiral tool paths avoiding arc restarts.",
+    "split": "test"
   }
 ]

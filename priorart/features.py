@@ -21,9 +21,12 @@ log = logging.getLogger("priorart.features")
 
 PREAMBLE = re.compile(
     r"^(we|our|this (invention|disclosure|application)|the (present )?(invention|disclosure))\b.{0,40}"
-    r"\b(propos|disclos|relat|describ|introduc|present)", re.I)
+    r"\b(propos|disclos|relat|describ|introduc|present|concern)", re.I)
 CLAUSE_SPLIT = re.compile(r";\s+|,\s+(?:and|while|whereas|rather than|in which case|so that)\s+|,\s+which\s+(?=\w)", re.I)
 LEAD = re.compile(r"^(and|also|further|additionally|moreover|then|otherwise|so)\b[,\s]*", re.I)
+SUBJ_VERB = re.compile(
+    r"^(?:the|this|our|each)\s+[\w-]+(?:\s+(?:also|further|additionally))?\s+"
+    r"(?:comprises?|includes?|has|have|employs?|provides?|uses?|contains?)\s+(?=(?:an?|the|one|at|\d)\s)", re.I)
 MAX_FEATURES = 8
 MIN_TERMS = 4
 
@@ -53,6 +56,7 @@ def build_features(clauses: list[str]) -> list[Feature]:
     feats: list[Feature] = []
     for c in clauses:
         c = LEAD.sub("", c.strip()).rstrip(" .;,")
+        c = SUBJ_VERB.sub("", c)
         st = analyze(c)
         if len(set(st)) < MIN_TERMS:
             continue
